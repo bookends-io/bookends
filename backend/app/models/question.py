@@ -3,7 +3,7 @@ from typing import List, Optional
 
 class QuestionBase(BaseModel):
     text: str
-    created_by_user_id: int
+    created_by_user_id: str
 
 class QuestionCreate(QuestionBase):
     pass

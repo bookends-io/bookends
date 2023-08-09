@@ -1,24 +1,31 @@
 from fastapi import FastAPI
 
-from app.crud import user, question, response
+from app.crud import  response
+from app.crud import user as user_crud
+from app.models.user import UserCreate, UserUpdate
+from app.crud import question as question_crud
 
 app = FastAPI()
 
 @app.post("/users/")
-def create_user(user: user.UserCreate):
-    return user.create(user)
+async def create_user(user: UserCreate):
+    return user_crud.create(user)
+
+@app.put("/users/{username}")
+def update_user(username: str, user_in: UserUpdate):
+    return user_crud.update(username, user_in)
 
 @app.get("/users/{username}")
 def read_user(username: str):
-    return user.get_by_username(username)
+    return user_crud.get_by_username(username)
 
 @app.post("/questions/")
-def create_question(question: question.QuestionCreate):
-    return question.create(question)
+def create_question(question: question_crud.QuestionCreate):
+    return question_crud.create(question)
 
 @app.get("/questions/{id}")
 def read_question(id: int):
-    return question.get_by_id(id)
+    return question_crud.get_by_id(id)
 
 @app.post("/responses/")
 def create_response(response: response.ResponseCreate):
