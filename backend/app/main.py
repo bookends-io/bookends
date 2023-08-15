@@ -85,7 +85,6 @@ def read_bookend(id: str):
         raise HTTPException(status_code=404, detail="Bookend not found")
     return bookend
 
-
 @app.put("/bookends/{id}/morning-response/")
 def update_morning_response(id: str, response: MorningResponse):
     return update_bookend(id, morning_response=response)
