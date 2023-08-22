@@ -7,6 +7,6 @@ python3 -m venv fastapi-env
 source fastapi-env/bin/activate
 
 # Run from the app directory 
-uvicorn app:app --reload 
+uvicorn main:app --reload 
 
 # Profit
