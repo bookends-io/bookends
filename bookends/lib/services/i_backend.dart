@@ -7,7 +7,7 @@ abstract class IBackend {
 
   Future<List<Bookend>> getBookends();
 
-  Future<List<Bookend>> getResponses();
+  Future<List<Response>> getResponses();
 
   Future<bool> pushResponse(Bookend bookend);
 
