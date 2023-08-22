@@ -1,11 +1,10 @@
 from pydantic import BaseModel, Field
 from typing import List
-from .answer_group import AnswerGroup
+from .answers import Answer
 from uuid import uuid4
 
-class Response(BaseModel):
+class AnswerGroup(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
-    bookendId: str
+    responseId: str
     questionnaireId: str
-    userId: str
-    answers: List[AnswerGroup]
+    answers: List[Answer]

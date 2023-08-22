@@ -1,160 +1,220 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
-from app.crud import user as user_crud
-from app.models.user import UserCreate, UserUpdate
-from app.crud import questionnaire as questionnaire_crud
-from app.models.questionnaire import QuestionnaireCollection
-# from app.models.responses import UserResponse
-# from app.crud import responses as responses_crud
-from app.crud import feedback as feedback_crud
-from app.models.feedback import DailyFeedbackCreate
-from app.models.analytics import FeedbackTrends, TopQuestions
-from app.crud import analytics as analytics_crud
-from app.models.bookends import UserResponse, Answer
-from app.crud.bookends import create, get_by_id, delete, update_bookend, get_all
-from app.crud.end_of_day import (get_all_end_of_day, get_end_of_day_by_id, create_end_of_day,
-                                 update_end_of_day, delete_end_of_day)
-from app.models.end_of_day import EndOfDayQuestionsCollection
-from app.models.responses import MorningResponse, NightResponse
-from app.crud.responses import create_morning_response, get_morning_response_by_id, create_night_response, get_night_response_by_id, update_morning_response, update_night_response, delete_morning_response, delete_night_response
-
+from crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
+from models.user import User
+from crud.bookends import create_bookend as create_bookend_crud
+from crud.bookends import update_bookend as update_bookend_crud
+from crud.bookends import delete_bookend as delete_bookend_crud
+from crud.bookends import get_bookend_by_id, get_all_bookends
+from models.bookends import Bookend
+from models.questionnaire import Questionnaire
+from crud.questionnaire import create_questionnaire as create_questionnaire_crud
+from crud.questionnaire import delete_questionnaire as delete_questionnaire_crud
+from crud.questionnaire import update_questionnaire as update_questionnaire_crud
+from crud.questionnaire import get_all_questionnaires, get_questionnaire_by_id
+from models.questions import Question
+from crud.questions import create_question as create_question_crud
+from crud.questions import get_question_by_id, get_all_questions
+from crud.questions import update_question as update_question_crud
+from crud.questions import delete_question as delete_question_crud
+from models.responses import Response as ResponseModel
+from crud.responses import create_response as create_response_crud
+from crud.responses import get_response_by_id, get_responses_by_bookend_id
+from crud.responses import update_response as update_response_crud
+from crud.responses import delete_response as delete_response_crud
+from models.answer_group import AnswerGroup as AnswerGroupModel
+from crud.answer_group import create_answer_group as create_answer_group_crud
+from crud.answer_group import get_answer_group_by_id, get_answer_groups_by_response_id
+from crud.answer_group import update_answer_group as update_answer_group_crud
+from crud.answer_group import delete_answer_group as delete_answer_group_crud
+from models.answers import Answer as AnswerModel
+from crud.answers import create_answer as create_answer_crud
+from crud.answers import get_answer_by_id, get_answers_by_answer_group_id
+from crud.answers import update_answer as update_answer_crud
+from crud.answers import delete_answer as delete_answer_crud
 
 app = FastAPI()
 
-@app.post("/users/")
-async def create_user(user: UserCreate):
-    return user_crud.create(user)
+# User Section
+@app.post("/user/")
+def create_user_endpoint(user: User):
+    return create_user(user)
 
-@app.put("/users/{username}")
-def update_user(username: str, user_in: UserUpdate):
-    return user_crud.update(username, user_in)
+@app.get("/user/{id}/")
+def get_user_by_id_endpoint(id: str):
+    return get_user_by_id(id)
 
-@app.get("/users/{username}")
-def read_user(username: str):
-    return user_crud.get_by_username(username)
+@app.get("/users/")
+def get_all_users_endpoint():
+    return get_all_users()
 
-# Might remove these two and handle with analytics later
-@app.post("/feedback/")
-def create_daily_feedback(feedback: DailyFeedbackCreate):
-    return feedback_crud.create(feedback)
+@app.put("/user/{id}/")
+def update_user_endpoint(id: str, user: User):
+    return update_user(id, user)
 
-@app.get("/progress/{user_id}")
-def get_user_progress(user_id: str):
-    return feedback_crud.get_user_progress(user_id)
+@app.delete("/user/{id}/")
+def delete_user_endpoint(id: str):
+    delete_user(id)
+    return {"message": "User deleted successfully"}
 
-# Section handles generating a questionnaire, or modifying an existing one
-@app.get("/questionnaire-collections/")
-def get_questionnaire_collections():
-    return questionnaire_crud.get_all()
+# Bookend Section
 
-@app.get("/questionnaire-collections/{id}")
-def get_questionnaire_collection(id: str):
-    collection = questionnaire_crud.get_by_id(id)
-    if collection is None:
-        raise HTTPException(status_code=404, detail="Collection not found")
-    return collection
-
-@app.post("/questionnaire-collections/")
-def create_questionnaire_collection(questionnaire_collection: QuestionnaireCollection):
-    return questionnaire_crud.create(questionnaire_collection)
-
-@app.put("/questionnaire-collections/{id}")
-def update_questionnaire_collection(id: str, questionnaire_collection: QuestionnaireCollection):
-    return questionnaire_crud.update(id, questionnaire_collection)
-
-@app.delete("/questionnaire-collections/{id}")
-def delete_questionnaire_collection(id: str):
-    questionnaire_crud.delete(id)
-    return {"message": "Collection deleted successfully"}
-
-
-# Section handles generating a new bookend, then storing answers
-# for morning and evening questions with feedback.
 @app.post("/bookends/")
-def create_bookend(bookend: UserResponse):
-    return create(bookend)
-
-@app.get("/bookends/")
-def read_all_bookends():
-    return get_all()
+def create_bookend(bookend: Bookend):
+    new_bookend = create_bookend_crud(bookend)
+    return new_bookend
 
 @app.get("/bookends/{id}")
 def read_bookend(id: str):
-    bookend = get_by_id(id)
-    if bookend is None:
-        raise HTTPException(status_code=404, detail="Bookend not found")
+    bookend = get_bookend_by_id(id)
     return bookend
 
+@app.get("/bookends/")
+def read_all_bookends():
+    bookends = get_all_bookends()
+    return {"bookends": bookends}
 
-@app.put("/bookends/{id}/morning-response/")
-def update_morning_response(id: str, response: MorningResponse):
-    return update_bookend(id, morning_response=response)
-
-@app.put("/bookends/{id}/night-response/")
-def update_night_response(id: str, response: NightResponse):
-    return update_bookend(id, night_response=response)
-
-@app.put("/bookends/{id}/end-of-day-answers/")
-def update_night_response(id: str, end_of_day_answers: List[Answer]):
-    # Retrieve the existing bookend entry by ID
-    bookend = get_by_id(id)
-    if not bookend:
-        raise HTTPException(status_code=404, detail="Bookend not found")
-
-    # Update the endOfDayAnswers field with the provided answers
-    bookend["endOfDayAnswers"] = end_of_day_answers
-
-    # Update the bookend entry in the database (add your update logic here)
-    update_bookend(id, bookend)
-
-    return {"message": "End-of-Day Answers updated successfully"}
-
+@app.put("/bookends/{id}")
+def update_bookend(id: str, bookend: Bookend):
+    updated_bookend = update_bookend_crud(id, bookend)
+    return updated_bookend
 
 @app.delete("/bookends/{id}")
 def delete_bookend(id: str):
-    delete(id)
-    return {"message": "Bookend deleted successfully"}
+    # Logic to delete a bookend
+    return {"message": "Bookend deleted"}
 
+# Questionnaire Section
 
-# End-of-Day Question handles generating and querying various questions
-@app.get("/end-of-day-questions/")
-def get_all_end_of_day_questions():
-    return get_all_end_of_day()
+@app.post("/questionnaires/")
+def create_questionnaire(questionnaire: Questionnaire):
+    new_questionnaire = create_questionnaire_crud(questionnaire)
+    return new_questionnaire
 
-@app.get("/end-of-day-questions/{id}/")
-def get_end_of_day_questions_by_id(id: str):
-    return get_end_of_day_by_id(id)
+@app.get("/questionnaires/{id}")
+def read_questionnaire(id: str):
+    questionnaire = get_questionnaire_by_id(id)
+    return questionnaire
 
-@app.post("/end-of-day-questions/")
-def create_end_of_day_questions(questions_collection: EndOfDayQuestionsCollection):
-    return create_end_of_day(questions_collection)
+@app.get("/questionnaires/")
+def read_all_questionnaires():
+    questionnaires = get_all_questionnaires()
+    return {"questionnaires": questionnaires}
 
-@app.put("/end-of-day-questions/{id}/")
-def update_end_of_day_questions(id: str, questions_collection: EndOfDayQuestionsCollection):
-    return update_end_of_day(id, questions_collection)
+@app.put("/questionnaires/{id}")
+def update_questionnaire(id: str, questionnaire: Questionnaire):
+    updated_questionnaire = update_questionnaire_crud(id, questionnaire)
+    return updated_questionnaire
 
-@app.delete("/end-of-day-questions/{id}/")
-def delete_end_of_day_questions(id: str):
-    delete_end_of_day(id)
-    return {"message": "End-of-Day Questions deleted successfully"}
+@app.delete("/questionnaires/{id}")
+def delete_questionnaire(id: str):
+    delete_questionnaire_crud(id)
+    return {"message": "Questionnaire deleted"}
 
-@app.post("/morning-responses/")
-def create_morning_response_endpoint(response: MorningResponse):
-    return create_morning_response(response)
+# Question Section
 
-@app.put("/night-responses/{id}")
-def update_night_response_endpoint(id: str, response: NightResponse):
-    return update_night_response(id, response)
+@app.post("/questions/")
+def create_question(question: Question):
+    new_question = create_question_crud(question)
+    return new_question
 
-@app.delete("/night-responses/{id}")
-def delete_night_response_endpoint(id: str):
-    delete_night_response(id)
-    return {"message": "Night response deleted successfully"}
+@app.get("/questions/{id}")
+def read_question(id: str):
+    question = get_question_by_id(id)
+    return question
 
-# @app.get("/analytics/feedback-over-time", response_model=FeedbackTrends)
-# def get_feedback_over_time():
-#     return {"trends": analytics_crud.get_feedback_trends()}
+@app.get("/questions/")
+def read_all_questions():
+    questions = get_all_questions()
+    return {"questions": questions}
 
-# @app.get("/analytics/top-questions", response_model=TopQuestions)
-# def get_top_questions():
-#     return {"top_questions": analytics_crud.get_top_questions()}
+@app.put("/questions/{id}")
+def update_question(id: str, question: Question):
+    updated_question = update_question_crud(id, question)
+    return updated_question
+
+@app.delete("/questions/{id}")
+def delete_question(id: str):
+    delete_question_crud(id)
+    return {"message": "Question deleted"}
+
+# Reponse Section
+
+@app.post("/responses/")
+def create_response(response: ResponseModel):
+    new_response = create_response_crud(response)
+    return new_response
+
+@app.get("/responses/{id}")
+def read_response(id: str):
+    response = get_response_by_id(id)
+    return response
+
+@app.get("/responses/bookend/{bookend_id}")
+def read_responses_by_bookend_id(bookend_id: str):
+    responses = get_responses_by_bookend_id(bookend_id)
+    return {"responses": responses}
+
+@app.put("/responses/{id}")
+def update_response(id: str, response: ResponseModel):
+    updated_response = update_response_crud(id, response)
+    return updated_response
+
+@app.delete("/responses/{id}")
+def delete_response(id: str):
+    delete_response_crud(id)
+    return {"message": "Response deleted"}
+
+# Answer Section
+
+@app.post("/answers/")
+def create_answer(answer: AnswerModel):
+    new_answer = create_answer_crud(answer)
+    return new_answer
+
+@app.get("/answers/{id}")
+def read_answer(id: str):
+    answer = get_answer_by_id(id)
+    return answer
+
+@app.get("/answers/answer-group/{answer_group_id}")
+def read_answers_by_answer_group_id(answer_group_id: str):
+    answers = get_answers_by_answer_group_id(answer_group_id)
+    return {"answers": answers}
+
+@app.put("/answers/{id}")
+def update_answer(id: str, answer: AnswerModel):
+    updated_answer = update_answer_crud(id, answer)
+    return updated_answer
+
+@app.delete("/answers/{id}")
+def delete_answer(id: str):
+    delete_answer_crud(id)
+    return {"message": "Answer deleted"}
+
+# Answer Group Section
+
+@app.post("/answer-groups/")
+def create_answer_group(answer_group: AnswerGroupModel):
+    new_answer_group = create_answer_group_crud(answer_group)
+    return new_answer_group
+
+@app.get("/answer-groups/{id}")
+def read_answer_group(id: str):
+    answer_group = get_answer_group_by_id(id)
+    return answer_group
+
+@app.get("/answer-groups/response/{response_id}")
+def read_answer_groups_by_response_id(response_id: str):
+    answer_groups = get_answer_groups_by_response_id(response_id)
+    return {"answer_groups": answer_groups}
+
+@app.put("/answer-groups/{id}")
+def update_answer_group(id: str, answer_group: AnswerGroupModel):
+    updated_answer_group = update_answer_group_crud(id, answer_group)
+    return updated_answer_group
+
+@app.delete("/answer-groups/{id}")
+def delete_answer_group(id: str):
+    delete_answer_group_crud(id)
+    return {"message": "Answer group deleted"}
