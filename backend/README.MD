@@ -6,7 +6,13 @@ python3 -m venv fastapi-env
 # Activate the Python virtual Environment
 source fastapi-env/bin/activate
 
+# Install the requirements
+pip3 install -r requirements.txt
+
+# CD into the app
+cd app
+
 # Run from the app directory 
-uvicorn app:app --reload 
+uvicorn main:app --reload 
 
 # Profit

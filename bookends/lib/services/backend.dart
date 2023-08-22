@@ -1,5 +1,6 @@
 import 'package:bookends/models/basic.dart';
 import 'package:bookends/services/i_backend.dart';
+import 'package:http/http.dart' as http;
 
 class Backend extends IBackend {
   String _url = '';
@@ -15,6 +16,14 @@ class Backend extends IBackend {
 
   @override
   Future<List<Bookend>> getBookends() async {
+    final resp = await http.get(
+      Uri.parse(
+        '$_url/bookends',
+      ),
+    );
+
+    print(resp.body);
+
     return [dummyBookend];
   }
 

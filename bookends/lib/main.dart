@@ -12,7 +12,9 @@ import 'package:get_it/get_it.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  GetIt.I.registerSingleton<IBackend>(Backend());
+  final IBackend backend = Backend();
+  backend.setup(url: 'http://localhost:8000');
+  GetIt.I.registerSingleton<IBackend>(backend);
 
   runApp(const MyApp());
 }
