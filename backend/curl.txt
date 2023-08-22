@@ -1,0 +1,53 @@
+// Bookend Starting Questions
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "Who are you fighting for today?",
+    "type": "short_answer"
+}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "One thing I can get excited about today is...",
+    "type": "short_answer"
+}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "A situation that might stress me out or trip me up today could be ... and the way my best self would deal with that is...",
+    "type": "short_answer"
+}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "Three people I can send a voice message to today are...",
+    "type": "short_answer"
+}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "If I was a high-performance coach looking at my life from a high level, I would tell myself to remember that ...",
+    "type": "short_answer"
+}'
+
+// Bookend Ending Questions
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "What tasks did I complete? Which ones did I miss out on? Choose satisfaction.", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "Review my great success markers, were you successful today?", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "A moment that I really appreciated today was...", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "A situation or task I handled well today was...", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "Something I realized or learned today was...", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "I could have made today even better if I...", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "If I was my own high-performance coach, I would tell myself this today...", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "Review the calendar for tomorrow, fill in blanks, and visualize each action.", "type": "long_answer"}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "Go do your life scores", "type": "long_answer"}'
+
+// Daily Bookstart Questionnaire
+curl -X POST "http://localhost:8000/questionnaires/" -H "Content-Type: application/json" -d '{
+    "name": "Daily Questions",
+    "questions": ["8f904f27-f5bd-49be-99fd-a2a5b4357f16", "1abd636e-253d-48b1-8474-17b05f74f03f", "abfd1260-cd04-409f-88cc-b22144ca825a", "c2200662-2b31-4579-bbae-45bdeda12789", "1f0daa29-94fd-4412-8b65-0d94cbf70069"]
+}'
+
+// Daily Bookend Questionnaire
+curl -X POST "http://localhost:8000/questionnaires/" -H "Content-Type: application/json" -d '{
+    "name": "Daily Bookfinish",
+    "questions": ["d9fad25d-fdb1-4e53-8441-ddeee389327f", "6b75e3b8-8721-4ff9-926d-e0d5f6dfb690", "b89f2650-cc40-42ce-8635-15a258396507","15644916-206e-4607-b217-9a02c7fa3139","0bc597a6-85ab-4fb6-a723-9247fd0a17a7","d8acfe73-ba65-4691-a980-2bcc2eb07841","62af4142-a9ac-432c-b84b-83d8b4f24311","ceff520e-db3d-478d-9afa-d9ce964864bb","a675598d-00ab-4ef4-88c7-0faa2f39ad43"]
+}'
+
+
+// Create a Bookend 
+curl -X POST "http://localhost:8000/bookends/" -H "Content-Type: application/json" -d '{
+    "name": "Default Bookend",
+    "public": true,
+    "questionnaires": ["8546fba4-78a8-462a-9055-1b91eb598105", "d6fbb73a-ff2d-4c2a-843d-17e1ae0c9112"]
+}'
+
