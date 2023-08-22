@@ -5,16 +5,16 @@ import 'package:bookends/widgets/bookend_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({
+class BookendPage extends StatefulWidget {
+  const BookendPage({
     super.key,
   });
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<BookendPage> createState() => _BookendPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _BookendPageState extends State<BookendPage> {
   final IBackend _backend = GetIt.I<IBackend>();
 
   bool _initialized = false;

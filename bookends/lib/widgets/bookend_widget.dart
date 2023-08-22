@@ -1,4 +1,5 @@
 import 'package:bookends/models/basic.dart';
+import 'package:bookends/pages/home/bookend_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class BookendWidget extends StatelessWidget {
@@ -16,7 +17,7 @@ class BookendWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => BookendPage(bookend: bookend)),
+              builder: (context) => BookendDetailPage(bookend: bookend)),
         );
       },
       child: Container(

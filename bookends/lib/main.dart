@@ -55,7 +55,7 @@ class _RootState extends State<Root> {
 
     _pageDatas = [
       PageData(
-        page: const HomePage(),
+        page: const BookendPage(),
         title: StringConstants.homePageTitle,
         icon: Icons.home,
       ),
