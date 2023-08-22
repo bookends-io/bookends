@@ -340,7 +340,7 @@ class _$_Questionnaire implements _Questionnaire {
   _$_Questionnaire(
       {required this.id,
       required this.name,
-      required this.description,
+      this.description,
       required final List<Question> questions})
       : _questions = questions;
 
@@ -402,7 +402,7 @@ abstract class _Questionnaire implements Questionnaire {
   factory _Questionnaire(
       {required final String id,
       required final String name,
-      required final String? description,
+      final String? description,
       required final List<Question> questions}) = _$_Questionnaire;
 
   factory _Questionnaire.fromJson(Map<String, dynamic> json) =
@@ -432,7 +432,7 @@ mixin _$Question {
   String get text => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
-  List<Question> get reliesOn => throw _privateConstructorUsedError;
+  List<QuestionId>? get reliesOn => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -450,7 +450,7 @@ abstract class $QuestionCopyWith<$Res> {
       String text,
       String? description,
       String type,
-      List<Question> reliesOn});
+      List<QuestionId>? reliesOn});
 }
 
 /// @nodoc
@@ -470,7 +470,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? text = null,
     Object? description = freezed,
     Object? type = null,
-    Object? reliesOn = null,
+    Object? reliesOn = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -489,10 +489,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      reliesOn: null == reliesOn
+      reliesOn: freezed == reliesOn
           ? _value.reliesOn
           : reliesOn // ignore: cast_nullable_to_non_nullable
-              as List<Question>,
+              as List<QuestionId>?,
     ) as $Val);
   }
 }
@@ -509,7 +509,7 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
       String text,
       String? description,
       String type,
-      List<Question> reliesOn});
+      List<QuestionId>? reliesOn});
 }
 
 /// @nodoc
@@ -527,7 +527,7 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? text = null,
     Object? description = freezed,
     Object? type = null,
-    Object? reliesOn = null,
+    Object? reliesOn = freezed,
   }) {
     return _then(_$_Question(
       id: null == id
@@ -546,10 +546,10 @@ class __$$_QuestionCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      reliesOn: null == reliesOn
+      reliesOn: freezed == reliesOn
           ? _value._reliesOn
           : reliesOn // ignore: cast_nullable_to_non_nullable
-              as List<Question>,
+              as List<QuestionId>?,
     ));
   }
 }
@@ -561,9 +561,9 @@ class _$_Question implements _Question {
   _$_Question(
       {required this.id,
       required this.text,
-      required this.description,
+      this.description,
       required this.type,
-      required final List<Question> reliesOn})
+      final List<QuestionId>? reliesOn})
       : _reliesOn = reliesOn;
 
   factory _$_Question.fromJson(Map<String, dynamic> json) =>
@@ -577,12 +577,14 @@ class _$_Question implements _Question {
   final String? description;
   @override
   final String type;
-  final List<Question> _reliesOn;
+  final List<QuestionId>? _reliesOn;
   @override
-  List<Question> get reliesOn {
+  List<QuestionId>? get reliesOn {
+    final value = _reliesOn;
+    if (value == null) return null;
     if (_reliesOn is EqualUnmodifiableListView) return _reliesOn;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_reliesOn);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -626,9 +628,9 @@ abstract class _Question implements Question {
   factory _Question(
       {required final String id,
       required final String text,
-      required final String? description,
+      final String? description,
       required final String type,
-      required final List<Question> reliesOn}) = _$_Question;
+      final List<QuestionId>? reliesOn}) = _$_Question;
 
   factory _Question.fromJson(Map<String, dynamic> json) = _$_Question.fromJson;
 
@@ -641,7 +643,7 @@ abstract class _Question implements Question {
   @override
   String get type;
   @override
-  List<Question> get reliesOn;
+  List<QuestionId>? get reliesOn;
   @override
   @JsonKey(ignore: true)
   _$$_QuestionCopyWith<_$_Question> get copyWith =>
@@ -1314,5 +1316,161 @@ abstract class _Answer implements Answer {
   @override
   @JsonKey(ignore: true)
   _$$_AnswerCopyWith<_$_Answer> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+QuestionId _$QuestionIdFromJson(Map<String, dynamic> json) {
+  return _QuestionId.fromJson(json);
+}
+
+/// @nodoc
+mixin _$QuestionId {
+  String get questionnaireId => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $QuestionIdCopyWith<QuestionId> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $QuestionIdCopyWith<$Res> {
+  factory $QuestionIdCopyWith(
+          QuestionId value, $Res Function(QuestionId) then) =
+      _$QuestionIdCopyWithImpl<$Res, QuestionId>;
+  @useResult
+  $Res call({String questionnaireId, String id});
+}
+
+/// @nodoc
+class _$QuestionIdCopyWithImpl<$Res, $Val extends QuestionId>
+    implements $QuestionIdCopyWith<$Res> {
+  _$QuestionIdCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? questionnaireId = null,
+    Object? id = null,
+  }) {
+    return _then(_value.copyWith(
+      questionnaireId: null == questionnaireId
+          ? _value.questionnaireId
+          : questionnaireId // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_QuestionIdCopyWith<$Res>
+    implements $QuestionIdCopyWith<$Res> {
+  factory _$$_QuestionIdCopyWith(
+          _$_QuestionId value, $Res Function(_$_QuestionId) then) =
+      __$$_QuestionIdCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String questionnaireId, String id});
+}
+
+/// @nodoc
+class __$$_QuestionIdCopyWithImpl<$Res>
+    extends _$QuestionIdCopyWithImpl<$Res, _$_QuestionId>
+    implements _$$_QuestionIdCopyWith<$Res> {
+  __$$_QuestionIdCopyWithImpl(
+      _$_QuestionId _value, $Res Function(_$_QuestionId) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? questionnaireId = null,
+    Object? id = null,
+  }) {
+    return _then(_$_QuestionId(
+      questionnaireId: null == questionnaireId
+          ? _value.questionnaireId
+          : questionnaireId // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true)
+class _$_QuestionId implements _QuestionId {
+  _$_QuestionId({required this.questionnaireId, required this.id});
+
+  factory _$_QuestionId.fromJson(Map<String, dynamic> json) =>
+      _$$_QuestionIdFromJson(json);
+
+  @override
+  final String questionnaireId;
+  @override
+  final String id;
+
+  @override
+  String toString() {
+    return 'QuestionId(questionnaireId: $questionnaireId, id: $id)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_QuestionId &&
+            (identical(other.questionnaireId, questionnaireId) ||
+                other.questionnaireId == questionnaireId) &&
+            (identical(other.id, id) || other.id == id));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, questionnaireId, id);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_QuestionIdCopyWith<_$_QuestionId> get copyWith =>
+      __$$_QuestionIdCopyWithImpl<_$_QuestionId>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_QuestionIdToJson(
+      this,
+    );
+  }
+}
+
+abstract class _QuestionId implements QuestionId {
+  factory _QuestionId(
+      {required final String questionnaireId,
+      required final String id}) = _$_QuestionId;
+
+  factory _QuestionId.fromJson(Map<String, dynamic> json) =
+      _$_QuestionId.fromJson;
+
+  @override
+  String get questionnaireId;
+  @override
+  String get id;
+  @override
+  @JsonKey(ignore: true)
+  _$$_QuestionIdCopyWith<_$_QuestionId> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -46,8 +46,8 @@ _$_Question _$$_QuestionFromJson(Map<String, dynamic> json) => _$_Question(
       text: json['text'] as String,
       description: json['description'] as String?,
       type: json['type'] as String,
-      reliesOn: (json['reliesOn'] as List<dynamic>)
-          .map((e) => Question.fromJson(e as Map<String, dynamic>))
+      reliesOn: (json['reliesOn'] as List<dynamic>?)
+          ?.map((e) => QuestionId.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -57,7 +57,7 @@ Map<String, dynamic> _$$_QuestionToJson(_$_Question instance) =>
       'text': instance.text,
       'description': instance.description,
       'type': instance.type,
-      'reliesOn': instance.reliesOn.map((e) => e.toJson()).toList(),
+      'reliesOn': instance.reliesOn?.map((e) => e.toJson()).toList(),
     };
 
 _$_Response _$$_ResponseFromJson(Map<String, dynamic> json) => _$_Response(
@@ -113,4 +113,16 @@ Map<String, dynamic> _$$_AnswerToJson(_$_Answer instance) => <String, dynamic>{
       'questionnaireId': instance.questionnaireId,
       'questionId': instance.questionId,
       'answer': instance.answer,
+    };
+
+_$_QuestionId _$$_QuestionIdFromJson(Map<String, dynamic> json) =>
+    _$_QuestionId(
+      questionnaireId: json['questionnaireId'] as String,
+      id: json['id'] as String,
+    );
+
+Map<String, dynamic> _$$_QuestionIdToJson(_$_QuestionId instance) =>
+    <String, dynamic>{
+      'questionnaireId': instance.questionnaireId,
+      'id': instance.id,
     };

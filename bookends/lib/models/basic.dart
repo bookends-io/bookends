@@ -9,6 +9,7 @@ class Bookend with _$Bookend {
   factory Bookend({
     required String id,
     required String name,
+    // String? description,
     required bool public,
     required List<Questionnaire> questionnaires,
   }) = _Bookend;
@@ -23,7 +24,7 @@ class Questionnaire with _$Questionnaire {
   factory Questionnaire({
     required String id,
     required String name,
-    required String? description,
+    String? description,
     required List<Question> questions,
   }) = _Questionnaire;
 
@@ -37,9 +38,9 @@ class Question with _$Question {
   factory Question({
     required String id,
     required String text,
-    required String? description,
+    String? description,
     required String type,
-    required List<Question> reliesOn,
+    List<QuestionId>? reliesOn,
   }) = _Question;
 
   factory Question.fromJson(Map<String, dynamic> json) =>
@@ -87,4 +88,16 @@ class Answer with _$Answer {
   }) = _Answer;
 
   factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
+}
+
+@freezed
+class QuestionId with _$QuestionId {
+  @JsonSerializable(explicitToJson: true)
+  factory QuestionId({
+    required String questionnaireId,
+    required String id,
+  }) = _QuestionId;
+
+  factory QuestionId.fromJson(Map<String, dynamic> json) =>
+      _$QuestionIdFromJson(json);
 }
