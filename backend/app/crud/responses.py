@@ -2,6 +2,8 @@ from models.responses import Response
 from typing import List
 from pymongo import MongoClient
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 mongologin = os.getenv("BOOKENDS_MONGO")
 
