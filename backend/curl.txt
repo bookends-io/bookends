@@ -20,6 +20,30 @@ curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/js
     "type": "short_answer"
 }'
 
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "The 3 projects I have to keep in mind that I want to take on, even if I can'\''t act toward them today are... 1 big thing I must do to move each forward are...",
+    "type": "long_answer"
+}'
+
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "The people I need to request something from to make today successful include...",
+    "type": "long_answer"
+}'
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "The people who have missions that are waiting on me include...",
+    "type": "long_answer"
+}'
+
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "What tasks will I complete today no matter what?",
+    "type": "long_answer"
+}'
+
+curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{
+    "text": "I would know that today was a *great success* if at the end of the day I did, said, or felt...",
+    "type": "long_answer"
+}'
+
 // Bookend Ending Questions
 curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "What tasks did I complete? Which ones did I miss out on? Choose satisfaction.", "type": "long_answer"}'
 curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/json" -d '{"text": "Review my great success markers, were you successful today?", "type": "long_answer"}'
@@ -34,8 +58,10 @@ curl -X POST "http://localhost:8000/questions/" -H "Content-Type: application/js
 // Daily Bookstart Questionnaire
 curl -X POST "http://localhost:8000/questionnaires/" -H "Content-Type: application/json" -d '{
     "name": "Daily Questions",
-    "questions": ["8f904f27-f5bd-49be-99fd-a2a5b4357f16", "1abd636e-253d-48b1-8474-17b05f74f03f", "abfd1260-cd04-409f-88cc-b22144ca825a", "c2200662-2b31-4579-bbae-45bdeda12789", "1f0daa29-94fd-4412-8b65-0d94cbf70069"]
+    "questions": ["8f904f27-f5bd-49be-99fd-a2a5b4357f16", "1abd636e-253d-48b1-8474-17b05f74f03f", "abfd1260-cd04-409f-88cc-b22144ca825a", "c2200662-2b31-4579-bbae-45bdeda12789", "1f0daa29-94fd-4412-8b65-0d94cbf70069", "9778e645-23eb-4ec9-aea1-2343ac1a6dc3", "69f82479-77d0-442e-9baa-608c6af283d6", "918c86b7-01e1-4259-9faf-076071711f85", "c0fe229e-d47b-4d9f-ac71-d212c12520c6", "3df57f24-5fd8-4e86-ae25-4e233f513d7b"]
 }'
+
+
 
 // Daily Bookend Questionnaire
 curl -X POST "http://localhost:8000/questionnaires/" -H "Content-Type: application/json" -d '{
