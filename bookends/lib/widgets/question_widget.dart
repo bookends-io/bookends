@@ -35,10 +35,12 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             children: [
               Expanded(
                 child: FittedBox(
-                  child: Text(widget.question.text,
-                      maxLines: 10,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    widget.question.text,
+                    maxLines: 10,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],

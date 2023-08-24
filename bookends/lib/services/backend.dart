@@ -16,13 +16,22 @@ class Backend extends IBackend {
 
   @override
   Future<List<Bookend>> getBookends() async {
-    // final resp = await http.get(
-    //   Uri.parse(
-    //     '$_url/bookends',
-    //   ),
-    // );
+    try {
+      final resp = await http.get(
+        Uri.parse(
+          '$_url/bookends/',
+        ),
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+      );
 
-    // print(resp.body);
+      print('swag');
+      print(resp.body);
+    } catch (e, s) {
+      print(e);
+      print(s);
+    }
 
     return [dummyBookend];
   }
