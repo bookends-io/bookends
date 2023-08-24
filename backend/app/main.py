@@ -1,5 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
+from dotenv import load_dotenv
+load_dotenv()
+from fastapi.middleware.cors import CORSMiddleware
 from crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
 from models.user import User
 from crud.bookends import create_bookend as create_bookend_crud
@@ -34,6 +37,16 @@ from crud.answers import update_answer as update_answer_crud
 from crud.answers import delete_answer as delete_answer_crud
 
 app = FastAPI()
+
+# CORS Required
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # User Section
 @app.post("/user/")
