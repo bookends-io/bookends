@@ -2,6 +2,8 @@ from models.bookends import Bookend
 from typing import List
 from pymongo import MongoClient
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 mongologin = os.getenv("BOOKENDS_MONGO")
 client = MongoClient(mongologin)

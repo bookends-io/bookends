@@ -2,6 +2,8 @@ from pymongo import MongoClient
 from models.questions import Question
 from typing import List
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 mongologin = os.getenv("BOOKENDS_MONGO")
 

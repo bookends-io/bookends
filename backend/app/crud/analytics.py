@@ -2,6 +2,8 @@ from typing import Any, Dict, List
 from pymongo import MongoClient
 from pymongo.collection import Collection
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 mongologin = os.getenv("BOOKENDS_MONGO")
 
