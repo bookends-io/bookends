@@ -30,23 +30,18 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 300,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.question.text,
-                    maxLines: 10,
-                    softWrap: true,
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Expanded(
+                child: FittedBox(
+                  child: Text(widget.question.text,
+                      maxLines: 10,
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis),
                 ),
-                // Flexible(
-                //   child:
-                // ),
-              ],
-            ),
+              ),
+            ],
           ),
           Text(
             widget.question.type.toString(),

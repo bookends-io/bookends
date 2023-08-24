@@ -16,13 +16,13 @@ class Backend extends IBackend {
 
   @override
   Future<List<Bookend>> getBookends() async {
-    final resp = await http.get(
-      Uri.parse(
-        '$_url/bookends',
-      ),
-    );
+    // final resp = await http.get(
+    //   Uri.parse(
+    //     '$_url/bookends',
+    //   ),
+    // );
 
-    print(resp.body);
+    // print(resp.body);
 
     return [dummyBookend];
   }
@@ -154,7 +154,7 @@ class Backend extends IBackend {
               id: '8',
               text:
                   'Review the calendar for tomorrow, fill in blanks, and visualize each action.',
-              type: 'statment'),
+              type: 'statement'),
           Question(id: '9', text: 'Go do your *life scores*', type: 'statement')
         ],
       ),
