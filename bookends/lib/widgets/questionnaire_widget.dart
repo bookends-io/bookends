@@ -29,14 +29,16 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(widget.questionnaire.name),
-              Text(widget.questionnaire.questions.length.toString()),
-              ..._buildQuestionWidgets(),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(widget.questionnaire.name),
+                Text(widget.questionnaire.questions.length.toString()),
+                ..._buildQuestionWidgets(),
+              ],
+            ),
           ),
           // IconButton(
           //   onPressed: () {

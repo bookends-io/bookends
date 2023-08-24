@@ -57,26 +57,13 @@ class _BookendPageState extends State<BookendPage> {
   Widget _buildBody() {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const Text(
-            StringConstants.homePageWelcome,
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 600,
-            child: ListView.builder(
-              itemCount: _bookends.length,
-              itemBuilder: (context, index) {
-                return BookendWidget(
-                  bookend: _bookends[index],
-                );
-              },
-            ),
-          ),
-        ],
+      child: ListView.builder(
+        itemCount: _bookends.length,
+        itemBuilder: (context, index) {
+          return BookendWidget(
+            bookend: _bookends[index],
+          );
+        },
       ),
     );
   }

@@ -24,6 +24,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
           width: 2,
         ),
       ),
+      // width: MediaQuery.of(context).size.width * 0.9,
       padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -34,13 +35,11 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                child: FittedBox(
-                  child: Text(
-                    widget.question.text,
-                    maxLines: 10,
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                child: Text(
+                  widget.question.text,
+                  maxLines: 10,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

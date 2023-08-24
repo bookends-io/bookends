@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bookends/models/basic.dart';
 import 'package:bookends/services/i_backend.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +19,7 @@ class Backend extends IBackend {
   @override
   Future<List<Bookend>> getBookends() async {
     try {
-      final resp = await http.get(
+      final bookends = await http.get(
         Uri.parse(
           '$_url/bookends/',
         ),
@@ -26,8 +28,13 @@ class Backend extends IBackend {
         // },
       );
 
-      print('swag');
-      print(resp.body);
+      final Map<String, dynamic> bookendData = jsonDecode(bookends.body);
+
+      // for (var thing in bookendData['bookends']) {
+      //   Bookend.fromJson(bookendData);
+      // }
+
+      print(bookendData);
     } catch (e, s) {
       print(e);
       print(s);
