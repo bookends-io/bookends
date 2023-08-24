@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
+from dotenv import load_dotenv
+load_dotenv()
 from crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
 from models.user import User
 from crud.bookends import create_bookend as create_bookend_crud
