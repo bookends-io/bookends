@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from typing import List
+from typing import List, Optional
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,6 +35,8 @@ from crud.answers import create_answer as create_answer_crud
 from crud.answers import get_answer_by_id, get_answers_by_answer_group_id
 from crud.answers import update_answer as update_answer_crud
 from crud.answers import delete_answer as delete_answer_crud
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
 
@@ -72,7 +74,53 @@ def delete_user_endpoint(id: str):
 
 # Bookend Section
 
-@app.post("/bookends/")
+@app.get("/bookendall/getall")
+def read_all_bookends_getall(fields: Optional[str] = ""):
+    bookends = get_all_bookends()  
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_bookends = []
+        
+        for bookend in bookends:
+            resolved_bookend = {}
+            
+            for field in requested_fields:
+                if field == 'id':
+                    resolved_bookend['id'] = convert_id(bookend.id)
+                elif field == 'questionnaires':
+                    resolved_questionnaires = []
+                    
+                    for q_id in bookend.questionnaires:
+                        questionnaire = get_questionnaire_by_id(q_id)  
+                        
+                        if questionnaire:
+                            questions = []
+                            for question_id in questionnaire.questions:
+                                question = get_question_by_id(question_id)  
+                                if question:
+                                    questions.append(question)
+                            
+                            resolved_questionnaires.append({
+                                "name": questionnaire.name,
+                                "questions": questions
+                            })
+                    
+                    resolved_bookend['questionnaires'] = resolved_questionnaires
+                else:
+                    resolved_bookend[field] = getattr(bookend, field, None)
+            
+            resolved_bookends.append(resolved_bookend)
+        
+        return {"bookends": resolved_bookends}
+    else:
+        return {"bookends": bookends}
+
+def convert_id(id_value: str) -> str:
+    return f"converted-{id_value}"
+
+
+@app.post("/bookends")
 def create_bookend(bookend: Bookend):
     new_bookend = create_bookend_crud(bookend)
     return new_bookend
@@ -82,7 +130,7 @@ def read_bookend(id: str):
     bookend = get_bookend_by_id(id)
     return bookend
 
-@app.get("/bookends/")
+@app.get("/bookends")
 def read_all_bookends():
     bookends = get_all_bookends()
     return {"bookends": bookends}
@@ -99,7 +147,7 @@ def delete_bookend(id: str):
 
 # Questionnaire Section
 
-@app.post("/questionnaires/")
+@app.post("/questionnaires")
 def create_questionnaire(questionnaire: Questionnaire):
     new_questionnaire = create_questionnaire_crud(questionnaire)
     return new_questionnaire
@@ -231,3 +279,7 @@ def update_answer_group(id: str, answer_group: AnswerGroupModel):
 def delete_answer_group(id: str):
     delete_answer_group_crud(id)
     return {"message": "Answer group deleted"}
+
+
+
+
