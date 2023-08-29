@@ -6,15 +6,21 @@ import 'package:bookends/pages/home/bookend_page.dart';
 import 'package:bookends/pages/settings_page.dart';
 import 'package:bookends/services/backend.dart';
 import 'package:bookends/services/i_backend.dart';
+import 'package:bookends/services/local_file_service/i_local_file_service.dart';
+import 'package:bookends/services/local_file_service/local_file_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final IBackend backend = Backend();
-  backend.setup(url: 'http://localhost:8000');
+  await backend.setup(url: 'http://localhost:8000');
   GetIt.I.registerSingleton<IBackend>(backend);
+
+  final ILocalFileService localFileService = LocalFileService();
+  await localFileService.init();
+  GetIt.I.registerSingleton<ILocalFileService>(localFileService);
 
   runApp(const MyApp());
 }
