@@ -18,6 +18,7 @@ class Backend extends IBackend {
 
   @override
   Future<List<Bookend>> getBookends() async {
+    final List<Bookend> bookendsList = [];
     try {
       final bookends = await http.get(
         Uri.parse(
@@ -29,18 +30,16 @@ class Backend extends IBackend {
       );
 
       final Map<String, dynamic> bookendData = jsonDecode(bookends.body);
-
-      // for (var thing in bookendData['bookends']) {
-      //   Bookend.fromJson(bookendData);
-      // }
-
       print(bookendData);
+      for (var b in bookendData['bookends']) {
+        Bookend.fromJson(b);
+      }
     } catch (e, s) {
       print(e);
       print(s);
     }
 
-    return [dummyBookend];
+    return bookendsList;
   }
 
   @override
