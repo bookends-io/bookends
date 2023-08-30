@@ -22,7 +22,7 @@ class Backend extends IBackend {
     try {
       final bookends = await http.get(
         Uri.parse(
-          '$_url/bookends/',
+          '$_url/bookendall/getall?fields=id,name,questionnaires',
         ),
         // headers: {
         //   'Content-Type': 'application/json',

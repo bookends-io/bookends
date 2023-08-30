@@ -18,9 +18,9 @@ void main() async {
   await backend.setup(url: 'http://localhost:8000');
   GetIt.I.registerSingleton<IBackend>(backend);
 
-  final ILocalFileService localFileService = LocalFileService();
-  await localFileService.init();
-  GetIt.I.registerSingleton<ILocalFileService>(localFileService);
+  // final ILocalFileService localFileService = LocalFileService();
+  // await localFileService.init();
+  // GetIt.I.registerSingleton<ILocalFileService>(localFileService);
 
   runApp(const MyApp());
 }
