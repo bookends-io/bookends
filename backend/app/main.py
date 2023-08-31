@@ -103,7 +103,8 @@ def read_all_bookends_getall(fields: Optional[str] = ""):
                             
                             resolved_questionnaires.append({
                                 "name": questionnaire.name,
-                                "questions": questions
+                                "questions": questions,
+                                "id": questionnaire.id
                             })
                     
                     resolved_bookend['questionnaires'] = resolved_questionnaires
@@ -157,7 +158,7 @@ def read_questionnaire(id: str):
     questionnaire = get_questionnaire_by_id(id)
     return questionnaire
 
-@app.get("/questionnaires/")
+@app.get("/questionnaires")
 def read_all_questionnaires():
     questionnaires = get_all_questionnaires()
     return {"questionnaires": questionnaires}
