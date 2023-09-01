@@ -74,6 +74,7 @@ def delete_user_endpoint(id: str):
 
 # Bookend Section
 
+# Get all bookends
 @app.get("/bookendall/getall")
 def read_all_bookends_getall(fields: Optional[str] = ""):
     bookends = get_all_bookends()  
@@ -117,9 +118,48 @@ def read_all_bookends_getall(fields: Optional[str] = ""):
     else:
         return {"bookends": bookends}
 
-def convert_id(id_value: str) -> str:
-    return f"converted-{id_value}"
+# Get bookend by ID
+@app.get("/bookendall/{id}")
+def get_bookend(id: str, fields: Optional[str] = ""):
+    bookend = get_bookend_by_id(id)
+    
+    if bookend is None:
+        raise HTTPException(status_code=404, detail="Bookend not found")
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_bookend = {}
+                  
+        for field in requested_fields:
+                if field == 'id':
+                    resolved_bookend['id'] = convert_id(bookend.id)
+                elif field == 'questionnaires':
+                    resolved_questionnaires = []
+                    
+                    for q_id in bookend.questionnaires:
+                        questionnaire = get_questionnaire_by_id(q_id)  
+                        
+                        if questionnaire:
+                            questions = []
+                            for question_id in questionnaire.questions:
+                                question = get_question_by_id(question_id)  
+                                if question:
+                                    questions.append(question)
+                            
+                            resolved_questionnaires.append({
+                                "name": questionnaire.name,
+                                "questions": questions,
+                                "id": questionnaire.id
+                            })
+                    
+                    resolved_bookend['questionnaires'] = resolved_questionnaires
+                else:
+                    resolved_bookend[field] = getattr(bookend, field, None)
+            
 
+        return {"bookend": resolved_bookend}
+    else:
+        return {"bookend": bookend}
 
 @app.post("/bookends")
 def create_bookend(bookend: Bookend):
@@ -153,15 +193,88 @@ def create_questionnaire(questionnaire: Questionnaire):
     new_questionnaire = create_questionnaire_crud(questionnaire)
     return new_questionnaire
 
-@app.get("/questionnaires/{id}")
-def read_questionnaire(id: str):
-    questionnaire = get_questionnaire_by_id(id)
-    return questionnaire
+# @app.get("/questionnaires/{id}")
+# def read_questionnaire(id: str):
+#     questionnaire = get_questionnaire_by_id(id)
+#     return questionnaire
 
+# @app.get("/questionnaires")
+# def read_all_questionnaires():
+#     questionnaires = get_all_questionnaires()
+#     return {"questionnaires": questionnaires}
+
+# Get all questions from all questionnaires
 @app.get("/questionnaires")
-def read_all_questionnaires():
+def read_all_questionnaires(fields: Optional[str] = ""):
     questionnaires = get_all_questionnaires()
-    return {"questionnaires": questionnaires}
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_questionnaires = []
+        
+        for questionnaire in questionnaires:
+            resolved_questionnaire = {}
+            
+            for field in requested_fields:
+                if field == 'id':
+                    resolved_questionnaire['id'] = convert_id(questionnaire.id)
+                elif field == 'questions':
+                    resolved_questions = []
+                    
+                    for question_id in questionnaire.questions:
+                        question = get_question_by_id(question_id)  
+                        
+                        if question:
+                            resolved_questions.append(question)
+                    
+                    resolved_questionnaire['questions'] = resolved_questions
+                else:
+                    resolved_questionnaire[field] = getattr(questionnaire, field, None)
+            
+            resolved_questionnaires.append(resolved_questionnaire)
+        
+        return {"questionnaires": resolved_questionnaires}
+    else:
+        return {"questionnaires": questionnaires}
+    
+# Get all questions from individual questionnaires
+@app.get("/questionnaires/{id}")
+def read_questionnaire(id: str, fields: Optional[str] = ""):
+    questionnaire = get_questionnaire_by_id(id)
+    
+    if questionnaire is None:
+        raise HTTPException(status_code=404, detail="Questionnaire not found")
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_questionnaire = {}
+        
+        for field in requested_fields:
+            if field == 'id':
+                resolved_questionnaire['id'] = convert_id(questionnaire.id)
+            elif field == 'questions':
+                resolved_questions = []
+                
+                for question_id in questionnaire.questions:
+                    question = get_question_by_id(question_id)  
+                    
+                    if question:
+                              resolved_questions.append({
+                                    "text": question.text,
+                                    "description": question.description,
+                                    "type": question.type,
+                                    "id": question.id
+                                })     
+                   
+                resolved_questionnaire['questions'] = resolved_questions
+            else:
+                resolved_questionnaire[field] = getattr(questionnaire, field, None)
+        
+        return {"questionnaire": resolved_questionnaire}
+    else:
+        return {"questionnaire": questionnaire}
+
+
 
 @app.put("/questionnaires/{id}")
 def update_questionnaire(id: str, questionnaire: Questionnaire):
@@ -281,6 +394,7 @@ def delete_answer_group(id: str):
     delete_answer_group_crud(id)
     return {"message": "Answer group deleted"}
 
-
+def convert_id(id_value: str) -> str:
+    return f"converted-{id_value}"
 
 
