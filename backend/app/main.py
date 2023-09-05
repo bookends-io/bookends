@@ -193,16 +193,6 @@ def create_questionnaire(questionnaire: Questionnaire):
     new_questionnaire = create_questionnaire_crud(questionnaire)
     return new_questionnaire
 
-# @app.get("/questionnaires/{id}")
-# def read_questionnaire(id: str):
-#     questionnaire = get_questionnaire_by_id(id)
-#     return questionnaire
-
-# @app.get("/questionnaires")
-# def read_all_questionnaires():
-#     questionnaires = get_all_questionnaires()
-#     return {"questionnaires": questionnaires}
-
 # Get all questions from all questionnaires
 @app.get("/questionnaires")
 def read_all_questionnaires(fields: Optional[str] = ""):
@@ -274,8 +264,6 @@ def read_questionnaire(id: str, fields: Optional[str] = ""):
     else:
         return {"questionnaire": questionnaire}
 
-
-
 @app.put("/questionnaires/{id}")
 def update_questionnaire(id: str, questionnaire: Questionnaire):
     updated_questionnaire = update_questionnaire_crud(id, questionnaire)
@@ -288,7 +276,7 @@ def delete_questionnaire(id: str):
 
 # Question Section
 
-@app.post("/questions/")
+@app.post("/questions")
 def create_question(question: Question):
     new_question = create_question_crud(question)
     return new_question
@@ -298,7 +286,7 @@ def read_question(id: str):
     question = get_question_by_id(id)
     return question
 
-@app.get("/questions/")
+@app.get("/questions")
 def read_all_questions():
     questions = get_all_questions()
     return {"questions": questions}
@@ -342,10 +330,49 @@ def delete_response(id: str):
 
 # Answer Section
 
-@app.post("/answers/")
+@app.post("/answers")
 def create_answer(answer: AnswerModel):
-    new_answer = create_answer_crud(answer)
+    new_answer = create_answer_crud(answer)  # Step 1: Create Answer
+    
+    answer_group = get_answer_groups_by_response_id(answer.responseId)  # Step 2: Check AnswerGroup
+    
+    if not answer_group:
+    # Create a new answer group if it doesn't exist
+        answer_group_data = {
+            "responseId": answer.responseId,
+            "questionnaireId": answer.questionnaireId,
+            "answers": [new_answer.id]
+        }
+        answer_group = create_answer_group_crud(AnswerGroupModel(**answer_group_data))
+    else:
+        # Update existing AnswerGroup
+        answer_group.answers.append(new_answer.id)
+        answer_group = update_answer_group(answer_group.id, answer_group)
+        
+    # Check if a Response already exists for this Bookend and User
+    response = get_response_by_id(answer.responseId)  # Step 3: Check Response
+    if not response:
+        # Create a new response if it doesn't exist
+        response_data = {
+            "bookendId": answer.bookendId,
+            "questionnaireId": answer.questionnaireId,
+            "userId": answer.userId,
+            "answers": [answer_group.id]
+        }
+        response = create_response_crud(ResponseModel(**response_data))
+    else:
+        # Update existing Response
+        if answer_group.id not in response.answers:
+            response.answers.append(answer_group.id)
+            response = update_response(response.id, response)
+      
     return new_answer
+
+
+# @app.post("/answers")
+# def create_answer(answer: AnswerModel):
+#     new_answer = create_answer_crud(answer)
+#     return new_answer
 
 @app.get("/answers/{id}")
 def read_answer(id: str):
