@@ -51,23 +51,23 @@ app.add_middleware(
 
 
 # User Section
-@app.post("/user/")
+@app.post("/user")
 def create_user_endpoint(user: User):
     return create_user(user)
 
-@app.get("/user/{id}/")
+@app.get("/user/{id}")
 def get_user_by_id_endpoint(id: str):
     return get_user_by_id(id)
 
-@app.get("/users/")
+@app.get("/users")
 def get_all_users_endpoint():
     return get_all_users()
 
-@app.put("/user/{id}/")
+@app.put("/user/{id}")
 def update_user_endpoint(id: str, user: User):
     return update_user(id, user)
 
-@app.delete("/user/{id}/")
+@app.delete("/user/{id}")
 def delete_user_endpoint(id: str):
     delete_user(id)
     return {"message": "User deleted successfully"}
@@ -303,7 +303,7 @@ def delete_question(id: str):
 
 # Reponse Section
 
-@app.post("/responses/")
+@app.post("/responses")
 def create_response(response: ResponseModel):
     new_response = create_response_crud(response)
     return new_response
@@ -341,6 +341,7 @@ def create_answer(answer: AnswerModel):
         answer_group_data = {
             "responseId": answer.responseId,
             "questionnaireId": answer.questionnaireId,
+            "userId": answer.userId,
             "answers": [new_answer.id]
         }
         answer_group = create_answer_group_crud(AnswerGroupModel(**answer_group_data))
@@ -396,7 +397,7 @@ def delete_answer(id: str):
 
 # Answer Group Section
 
-@app.post("/answer-groups/")
+@app.post("/answer-groups")
 def create_answer_group(answer_group: AnswerGroupModel):
     new_answer_group = create_answer_group_crud(answer_group)
     return new_answer_group
