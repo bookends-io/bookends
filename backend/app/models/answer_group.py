@@ -7,4 +7,5 @@ class AnswerGroup(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid4()))
     responseId: str
     questionnaireId: str
-    answers: List[Answer]
+    answers: List[str]
+    # answers: List[Answer]

@@ -77,4 +77,24 @@ curl -X POST "http://localhost:8000/bookends/" -H "Content-Type: application/jso
     "questionnaires": ["8546fba4-78a8-462a-9055-1b91eb598105", "d6fbb73a-ff2d-4c2a-843d-17e1ae0c9112"]
 }'
 
-curl -X GET "http://localhost:8000/bookends/getall" -H "Content-Type: application/json" 
+curl -X GET "http://localhost:8000/bookendall/getall?fields=id,name,questionnaires,public" -H "Content-Type: application/json"
+
+curl -X GET "http://localhost:8000/bookendall/df860000-09d0-4b26-9ca8-546032f815a9?fields=id,name,questionnaires,public" -H "Content-Type: application/json"
+
+curl -X GET "http://localhost:8000/questionnaires" -H "Content-Type: application/json"
+
+curl -X GET "http://localhost:8000/questionnaires/d6fbb73a-ff2d-4c2a-843d-17e1ae0c9112?fields=id,questions" -H "Content-Type: application/json"
+
+curl -X GET "http://localhost:8000/questions" -H "Content-Type: application/json"
+
+curl -X GET "http://localhost:8000/questions/8f904f27-f5bd-49be-99fd-a2a5b4357f16" -H "Content-Type: application/json"
+
+curl --location --request POST 'http://localhost:8000/answers/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "answer": "I am fighting for my family today.",
+    "userId": "amir",
+    "questionId": "8f904f27-f5bd-49be-99fd-a2a5b4357f16",
+    "questionnaireId": "a3a87397-e822-4d85-a2f6-255cd31d2b76",
+    "bookendId": "df860000-09d0-4b26-9ca8-546032f815a9"
+}'

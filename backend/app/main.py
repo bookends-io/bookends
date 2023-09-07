@@ -74,6 +74,7 @@ def delete_user_endpoint(id: str):
 
 # Bookend Section
 
+# Get all bookends
 @app.get("/bookendall/getall")
 def read_all_bookends_getall(fields: Optional[str] = ""):
     bookends = get_all_bookends()  
@@ -117,9 +118,48 @@ def read_all_bookends_getall(fields: Optional[str] = ""):
     else:
         return {"bookends": bookends}
 
-def convert_id(id_value: str) -> str:
-    return f"converted-{id_value}"
+# Get bookend by ID
+@app.get("/bookendall/{id}")
+def get_bookend(id: str, fields: Optional[str] = ""):
+    bookend = get_bookend_by_id(id)
+    
+    if bookend is None:
+        raise HTTPException(status_code=404, detail="Bookend not found")
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_bookend = {}
+                  
+        for field in requested_fields:
+                if field == 'id':
+                    resolved_bookend['id'] = convert_id(bookend.id)
+                elif field == 'questionnaires':
+                    resolved_questionnaires = []
+                    
+                    for q_id in bookend.questionnaires:
+                        questionnaire = get_questionnaire_by_id(q_id)  
+                        
+                        if questionnaire:
+                            questions = []
+                            for question_id in questionnaire.questions:
+                                question = get_question_by_id(question_id)  
+                                if question:
+                                    questions.append(question)
+                            
+                            resolved_questionnaires.append({
+                                "name": questionnaire.name,
+                                "questions": questions,
+                                "id": questionnaire.id
+                            })
+                    
+                    resolved_bookend['questionnaires'] = resolved_questionnaires
+                else:
+                    resolved_bookend[field] = getattr(bookend, field, None)
+            
 
+        return {"bookend": resolved_bookend}
+    else:
+        return {"bookend": bookend}
 
 @app.post("/bookends")
 def create_bookend(bookend: Bookend):
@@ -153,15 +193,76 @@ def create_questionnaire(questionnaire: Questionnaire):
     new_questionnaire = create_questionnaire_crud(questionnaire)
     return new_questionnaire
 
-@app.get("/questionnaires/{id}")
-def read_questionnaire(id: str):
-    questionnaire = get_questionnaire_by_id(id)
-    return questionnaire
-
+# Get all questions from all questionnaires
 @app.get("/questionnaires")
-def read_all_questionnaires():
+def read_all_questionnaires(fields: Optional[str] = ""):
     questionnaires = get_all_questionnaires()
-    return {"questionnaires": questionnaires}
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_questionnaires = []
+        
+        for questionnaire in questionnaires:
+            resolved_questionnaire = {}
+            
+            for field in requested_fields:
+                if field == 'id':
+                    resolved_questionnaire['id'] = convert_id(questionnaire.id)
+                elif field == 'questions':
+                    resolved_questions = []
+                    
+                    for question_id in questionnaire.questions:
+                        question = get_question_by_id(question_id)  
+                        
+                        if question:
+                            resolved_questions.append(question)
+                    
+                    resolved_questionnaire['questions'] = resolved_questions
+                else:
+                    resolved_questionnaire[field] = getattr(questionnaire, field, None)
+            
+            resolved_questionnaires.append(resolved_questionnaire)
+        
+        return {"questionnaires": resolved_questionnaires}
+    else:
+        return {"questionnaires": questionnaires}
+    
+# Get all questions from individual questionnaires
+@app.get("/questionnaires/{id}")
+def read_questionnaire(id: str, fields: Optional[str] = ""):
+    questionnaire = get_questionnaire_by_id(id)
+    
+    if questionnaire is None:
+        raise HTTPException(status_code=404, detail="Questionnaire not found")
+    
+    if fields:
+        requested_fields = fields.split(",")
+        resolved_questionnaire = {}
+        
+        for field in requested_fields:
+            if field == 'id':
+                resolved_questionnaire['id'] = convert_id(questionnaire.id)
+            elif field == 'questions':
+                resolved_questions = []
+                
+                for question_id in questionnaire.questions:
+                    question = get_question_by_id(question_id)  
+                    
+                    if question:
+                              resolved_questions.append({
+                                    "text": question.text,
+                                    "description": question.description,
+                                    "type": question.type,
+                                    "id": question.id
+                                })     
+                   
+                resolved_questionnaire['questions'] = resolved_questions
+            else:
+                resolved_questionnaire[field] = getattr(questionnaire, field, None)
+        
+        return {"questionnaire": resolved_questionnaire}
+    else:
+        return {"questionnaire": questionnaire}
 
 @app.put("/questionnaires/{id}")
 def update_questionnaire(id: str, questionnaire: Questionnaire):
@@ -175,7 +276,7 @@ def delete_questionnaire(id: str):
 
 # Question Section
 
-@app.post("/questions/")
+@app.post("/questions")
 def create_question(question: Question):
     new_question = create_question_crud(question)
     return new_question
@@ -185,7 +286,7 @@ def read_question(id: str):
     question = get_question_by_id(id)
     return question
 
-@app.get("/questions/")
+@app.get("/questions")
 def read_all_questions():
     questions = get_all_questions()
     return {"questions": questions}
@@ -229,10 +330,49 @@ def delete_response(id: str):
 
 # Answer Section
 
-@app.post("/answers/")
+@app.post("/answers")
 def create_answer(answer: AnswerModel):
-    new_answer = create_answer_crud(answer)
+    new_answer = create_answer_crud(answer)  # Step 1: Create Answer
+    
+    answer_group = get_answer_groups_by_response_id(answer.responseId)  # Step 2: Check AnswerGroup
+    
+    if not answer_group:
+    # Create a new answer group if it doesn't exist
+        answer_group_data = {
+            "responseId": answer.responseId,
+            "questionnaireId": answer.questionnaireId,
+            "answers": [new_answer.id]
+        }
+        answer_group = create_answer_group_crud(AnswerGroupModel(**answer_group_data))
+    else:
+        # Update existing AnswerGroup
+        answer_group.answers.append(new_answer.id)
+        answer_group = update_answer_group(answer_group.id, answer_group)
+        
+    # Check if a Response already exists for this Bookend and User
+    response = get_response_by_id(answer.responseId)  # Step 3: Check Response
+    if not response:
+        # Create a new response if it doesn't exist
+        response_data = {
+            "bookendId": answer.bookendId,
+            "questionnaireId": answer.questionnaireId,
+            "userId": answer.userId,
+            "answers": [answer_group.id]
+        }
+        response = create_response_crud(ResponseModel(**response_data))
+    else:
+        # Update existing Response
+        if answer_group.id not in response.answers:
+            response.answers.append(answer_group.id)
+            response = update_response(response.id, response)
+      
     return new_answer
+
+
+# @app.post("/answers")
+# def create_answer(answer: AnswerModel):
+#     new_answer = create_answer_crud(answer)
+#     return new_answer
 
 @app.get("/answers/{id}")
 def read_answer(id: str):
@@ -281,6 +421,7 @@ def delete_answer_group(id: str):
     delete_answer_group_crud(id)
     return {"message": "Answer group deleted"}
 
-
+def convert_id(id_value: str) -> str:
+    return f"converted-{id_value}"
 
 
