@@ -6,9 +6,11 @@ class QuestionnaireWidget extends StatefulWidget {
   const QuestionnaireWidget({
     super.key,
     required this.questionnaire,
+    this.isResponse = false,
   });
 
   final Questionnaire questionnaire;
+  final bool isResponse;
 
   @override
   State<QuestionnaireWidget> createState() => _QuestionnaireWidgetState();
@@ -65,6 +67,7 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
           ),
           child: QuestionWidget(
             question: question,
+            isResponse: widget.isResponse,
           ),
         ),
       );

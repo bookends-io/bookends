@@ -21,7 +21,7 @@ Bookend _$BookendFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Bookend {
   String get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError; // String? description,
   bool get public => throw _privateConstructorUsedError;
   List<Questionnaire> get questionnaires => throw _privateConstructorUsedError;
 
@@ -149,6 +149,7 @@ class _$_Bookend implements _Bookend {
   final String id;
   @override
   final String name;
+// String? description,
   @override
   final bool public;
   final List<Questionnaire> _questionnaires;
@@ -208,7 +209,7 @@ abstract class _Bookend implements Bookend {
   String get id;
   @override
   String get name;
-  @override
+  @override // String? description,
   bool get public;
   @override
   List<Questionnaire> get questionnaires;
@@ -660,7 +661,7 @@ mixin _$Response {
   String get bookendId => throw _privateConstructorUsedError;
   List<String> get questionnaireIds => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  List<AnswerGroup> get answers => throw _privateConstructorUsedError;
+  List<AnswerGroup> get answerGroups => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -678,7 +679,7 @@ abstract class $ResponseCopyWith<$Res> {
       String bookendId,
       List<String> questionnaireIds,
       String userId,
-      List<AnswerGroup> answers});
+      List<AnswerGroup> answerGroups});
 }
 
 /// @nodoc
@@ -698,7 +699,7 @@ class _$ResponseCopyWithImpl<$Res, $Val extends Response>
     Object? bookendId = null,
     Object? questionnaireIds = null,
     Object? userId = null,
-    Object? answers = null,
+    Object? answerGroups = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -717,9 +718,9 @@ class _$ResponseCopyWithImpl<$Res, $Val extends Response>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      answers: null == answers
-          ? _value.answers
-          : answers // ignore: cast_nullable_to_non_nullable
+      answerGroups: null == answerGroups
+          ? _value.answerGroups
+          : answerGroups // ignore: cast_nullable_to_non_nullable
               as List<AnswerGroup>,
     ) as $Val);
   }
@@ -737,7 +738,7 @@ abstract class _$$_ResponseCopyWith<$Res> implements $ResponseCopyWith<$Res> {
       String bookendId,
       List<String> questionnaireIds,
       String userId,
-      List<AnswerGroup> answers});
+      List<AnswerGroup> answerGroups});
 }
 
 /// @nodoc
@@ -755,7 +756,7 @@ class __$$_ResponseCopyWithImpl<$Res>
     Object? bookendId = null,
     Object? questionnaireIds = null,
     Object? userId = null,
-    Object? answers = null,
+    Object? answerGroups = null,
   }) {
     return _then(_$_Response(
       id: null == id
@@ -774,9 +775,9 @@ class __$$_ResponseCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      answers: null == answers
-          ? _value._answers
-          : answers // ignore: cast_nullable_to_non_nullable
+      answerGroups: null == answerGroups
+          ? _value._answerGroups
+          : answerGroups // ignore: cast_nullable_to_non_nullable
               as List<AnswerGroup>,
     ));
   }
@@ -791,9 +792,9 @@ class _$_Response implements _Response {
       required this.bookendId,
       required final List<String> questionnaireIds,
       required this.userId,
-      required final List<AnswerGroup> answers})
+      required final List<AnswerGroup> answerGroups})
       : _questionnaireIds = questionnaireIds,
-        _answers = answers;
+        _answerGroups = answerGroups;
 
   factory _$_Response.fromJson(Map<String, dynamic> json) =>
       _$$_ResponseFromJson(json);
@@ -813,17 +814,17 @@ class _$_Response implements _Response {
 
   @override
   final String userId;
-  final List<AnswerGroup> _answers;
+  final List<AnswerGroup> _answerGroups;
   @override
-  List<AnswerGroup> get answers {
-    if (_answers is EqualUnmodifiableListView) return _answers;
+  List<AnswerGroup> get answerGroups {
+    if (_answerGroups is EqualUnmodifiableListView) return _answerGroups;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_answers);
+    return EqualUnmodifiableListView(_answerGroups);
   }
 
   @override
   String toString() {
-    return 'Response(id: $id, bookendId: $bookendId, questionnaireIds: $questionnaireIds, userId: $userId, answers: $answers)';
+    return 'Response(id: $id, bookendId: $bookendId, questionnaireIds: $questionnaireIds, userId: $userId, answerGroups: $answerGroups)';
   }
 
   @override
@@ -837,7 +838,8 @@ class _$_Response implements _Response {
             const DeepCollectionEquality()
                 .equals(other._questionnaireIds, _questionnaireIds) &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            const DeepCollectionEquality().equals(other._answers, _answers));
+            const DeepCollectionEquality()
+                .equals(other._answerGroups, _answerGroups));
   }
 
   @JsonKey(ignore: true)
@@ -848,7 +850,7 @@ class _$_Response implements _Response {
       bookendId,
       const DeepCollectionEquality().hash(_questionnaireIds),
       userId,
-      const DeepCollectionEquality().hash(_answers));
+      const DeepCollectionEquality().hash(_answerGroups));
 
   @JsonKey(ignore: true)
   @override
@@ -870,7 +872,7 @@ abstract class _Response implements Response {
       required final String bookendId,
       required final List<String> questionnaireIds,
       required final String userId,
-      required final List<AnswerGroup> answers}) = _$_Response;
+      required final List<AnswerGroup> answerGroups}) = _$_Response;
 
   factory _Response.fromJson(Map<String, dynamic> json) = _$_Response.fromJson;
 
@@ -883,7 +885,7 @@ abstract class _Response implements Response {
   @override
   String get userId;
   @override
-  List<AnswerGroup> get answers;
+  List<AnswerGroup> get answerGroups;
   @override
   @JsonKey(ignore: true)
   _$$_ResponseCopyWith<_$_Response> get copyWith =>

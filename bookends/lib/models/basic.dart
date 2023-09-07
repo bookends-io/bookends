@@ -55,7 +55,7 @@ class Response with _$Response {
     required String bookendId,
     required List<String> questionnaireIds,
     required String userId,
-    required List<AnswerGroup> answers,
+    required List<AnswerGroup> answerGroups,
   }) = _Response;
 
   factory Response.fromJson(Map<String, dynamic> json) =>

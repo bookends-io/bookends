@@ -9,7 +9,7 @@ abstract class IBackend {
 
   Future<List<Response>> getResponses();
 
-  Future<bool> pushResponse(Bookend bookend);
+  Future<bool> pushResponse(Response response);
 
   Future<String> getUserInfo();
 }

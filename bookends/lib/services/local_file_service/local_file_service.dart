@@ -17,12 +17,30 @@ class LocalFileService implements ILocalFileService {
   }
 
   @override
-  Future<List<String>> getAllFileNames() async {
+  Directory getSubdirectory(String subdirectory) {
+    if (kIsWeb) {
+      return Directory('');
+    }
+
+    final Directory d = Directory('${_directory.path}/$subdirectory');
+
+    // If the dir doesn't exist, make it!
+    if (!d.existsSync()) {
+      d.createSync(recursive: true);
+    }
+
+    return d;
+  }
+
+  @override
+  Future<List<String>> getAllFileNames({
+    Directory? directory,
+  }) async {
     if (kIsWeb) {
       return [];
     }
 
-    final files = _directory.listSync();
+    final files = (directory ?? _directory).listSync();
     final List<String> fileNames = files
         .map(
           (file) => file.uri.pathSegments.last,
@@ -32,13 +50,15 @@ class LocalFileService implements ILocalFileService {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> readAll() async {
+  Future<List<Map<String, dynamic>>> readAll({
+    Directory? directory,
+  }) async {
     if (kIsWeb) {
       return [];
     }
 
     List<Map<String, dynamic>> jsonList = [];
-    final files = _directory.listSync();
+    final files = (directory ?? _directory).listSync();
 
     for (var file in files) {
       if (file is File) {
@@ -53,35 +73,51 @@ class LocalFileService implements ILocalFileService {
   }
 
   @override
-  Future<Map<String, dynamic>> readFile(String fileName) async {
+  Future<Map<String, dynamic>> readFile(
+    String fileName, {
+    Directory? directory,
+  }) async {
     if (kIsWeb) {
       return {};
     }
 
-    final file = File('${_directory.path}/$fileName');
+    final Directory d = directory ?? _directory;
+    final file = File('${d.path}/$fileName');
+    if (!file.existsSync()) {
+      return {};
+    }
     String content = await file.readAsString();
     Map<String, dynamic> jsonContent = jsonDecode(content);
     return jsonContent;
   }
 
   @override
-  Future<void> write(String fileName, Map<String, dynamic> data) async {
+  Future<void> write(
+    String fileName,
+    Map<String, dynamic> data, {
+    Directory? directory,
+  }) async {
     if (kIsWeb) {
       return;
     }
 
-    final file = File('${_directory.path}/$fileName');
+    final Directory d = directory ?? _directory;
+    final file = File('${d.path}/$fileName');
     String jsonStr = jsonEncode(data);
     await file.writeAsString(jsonStr);
   }
 
   @override
-  Future<void> delete(String fileName) async {
+  Future<void> delete(
+    String fileName, {
+    Directory? directory,
+  }) async {
     if (kIsWeb) {
       return;
     }
 
-    final file = File('${_directory.path}/$fileName');
+    final Directory d = directory ?? _directory;
+    final file = File('${d.path}/$fileName');
     await file.delete();
   }
 
@@ -93,9 +129,7 @@ class LocalFileService implements ILocalFileService {
 
     final files = _directory.listSync();
     for (var file in files) {
-      if (file is File) {
-        await file.delete();
-      }
+      file.delete(recursive: true);
     }
   }
 }

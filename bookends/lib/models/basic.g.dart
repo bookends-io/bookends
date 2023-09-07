@@ -67,7 +67,7 @@ _$_Response _$$_ResponseFromJson(Map<String, dynamic> json) => _$_Response(
           .map((e) => e as String)
           .toList(),
       userId: json['userId'] as String,
-      answers: (json['answers'] as List<dynamic>)
+      answerGroups: (json['answerGroups'] as List<dynamic>)
           .map((e) => AnswerGroup.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -78,7 +78,7 @@ Map<String, dynamic> _$$_ResponseToJson(_$_Response instance) =>
       'bookendId': instance.bookendId,
       'questionnaireIds': instance.questionnaireIds,
       'userId': instance.userId,
-      'answers': instance.answers.map((e) => e.toJson()).toList(),
+      'answerGroups': instance.answerGroups.map((e) => e.toJson()).toList(),
     };
 
 _$_AnswerGroup _$$_AnswerGroupFromJson(Map<String, dynamic> json) =>

@@ -5,6 +5,10 @@ import 'package:bookends/pages/history_page.dart';
 import 'package:bookends/pages/home/bookend_page.dart';
 import 'package:bookends/pages/settings_page.dart';
 import 'package:bookends/services/backend.dart';
+import 'package:bookends/services/bookend_response_service/bookend_response_service.dart';
+import 'package:bookends/services/bookend_response_service/i_bookend_response_service.dart';
+import 'package:bookends/services/bookend_service/bookend_service.dart';
+import 'package:bookends/services/bookend_service/i_bookend_service.dart';
 import 'package:bookends/services/i_backend.dart';
 import 'package:bookends/services/local_file_service/i_local_file_service.dart';
 import 'package:bookends/services/local_file_service/local_file_service.dart';
@@ -18,9 +22,17 @@ void main() async {
   await backend.setup(url: 'http://localhost:8000');
   GetIt.I.registerSingleton<IBackend>(backend);
 
-  // final ILocalFileService localFileService = LocalFileService();
-  // await localFileService.init();
-  // GetIt.I.registerSingleton<ILocalFileService>(localFileService);
+  final ILocalFileService localFileService = LocalFileService();
+  await localFileService.init();
+  GetIt.I.registerSingleton<ILocalFileService>(localFileService);
+
+  final IBookendService bookendService = BookendService();
+  await bookendService.init();
+  GetIt.I.registerSingleton<IBookendService>(bookendService);
+
+  final IBookendResponseService bookendResponseService =
+      BookendResponseService();
+  GetIt.I.registerSingleton<IBookendResponseService>(bookendResponseService);
 
   runApp(const MyApp());
 }

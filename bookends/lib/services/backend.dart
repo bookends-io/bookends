@@ -22,7 +22,7 @@ class Backend extends IBackend {
     try {
       final bookends = await http.get(
         Uri.parse(
-          '$_url/bookendall/getall?fields=id,name,questionnaires',
+          '$_url/bookendall/getall?fields=id,name,public,questionnaires',
         ),
         // headers: {
         //   'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ class Backend extends IBackend {
       final Map<String, dynamic> bookendData = jsonDecode(bookends.body);
       print(bookendData);
       for (var b in bookendData['bookends']) {
-        Bookend.fromJson(b);
+        bookendsList.add(Bookend.fromJson(b));
       }
     } catch (e, s) {
       print(e);
@@ -48,7 +48,7 @@ class Backend extends IBackend {
   }
 
   @override
-  Future<bool> pushResponse(Bookend bookend) async {
+  Future<bool> pushResponse(Response response) async {
     return true;
   }
 

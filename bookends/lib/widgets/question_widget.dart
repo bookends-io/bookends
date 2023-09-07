@@ -5,15 +5,19 @@ class QuestionWidget extends StatefulWidget {
   const QuestionWidget({
     super.key,
     required this.question,
+    this.isResponse = false,
   });
 
   final Question question;
+  final bool isResponse;
 
   @override
   State<QuestionWidget> createState() => _QuestionWidgetState();
 }
 
 class _QuestionWidgetState extends State<QuestionWidget> {
+  final TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +28,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
           width: 2,
         ),
       ),
-      // width: MediaQuery.of(context).size.width * 0.9,
       padding: const EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -44,10 +47,20 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               ),
             ],
           ),
-          Text(
-            widget.question.type.toString(),
-            maxLines: 10,
-          ),
+          const SizedBox(height: 8),
+          widget.isResponse
+              ? TextField(
+                  controller: _textEditingController,
+                  maxLines: 10,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter your answer here',
+                  ),
+                )
+              : Text(
+                  widget.question.type.toString(),
+                  maxLines: 10,
+                ),
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:bookends/constants/string_constants.dart';
 import 'package:bookends/models/basic.dart';
 import 'package:bookends/services/i_backend.dart';
-import 'package:bookends/widgets/bookend_widget.dart';
+import 'package:bookends/widgets/bookend_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -60,7 +60,7 @@ class _BookendPageState extends State<BookendPage> {
       child: ListView.builder(
         itemCount: _bookends.length,
         itemBuilder: (context, index) {
-          return BookendWidget(
+          return BookendButtonWidget(
             bookend: _bookends[index],
           );
         },
