@@ -3,7 +3,7 @@ from typing import List, Optional
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
-from crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
+from .crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
 from models.user import User
 from crud.bookends import create_bookend as create_bookend_crud
 from crud.bookends import update_bookend as update_bookend_crud
