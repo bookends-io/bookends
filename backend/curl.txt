@@ -86,12 +86,18 @@ curl -X GET "http://localhost:8000/questions" -H "Content-Type: application/json
 
 curl -X GET "http://localhost:8000/questions/8f904f27-f5bd-49be-99fd-a2a5b4357f16" -H "Content-Type: application/json"
 
-curl --location --request POST 'http://localhost:8000/answers/' \
+curl --location --request POST 'http://localhost:8000/answers' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "answer": "I am fighting for my family today.",
     "userId": "amir",
-    "questionId": "8f904f27-f5bd-49be-99fd-a2a5b4357f16",
+    "questionId": "1abd636e-253d-48b1-8474-17b05f74f03f",
     "questionnaireId": "a3a87397-e822-4d85-a2f6-255cd31d2b76",
-    "bookendId": "df860000-09d0-4b26-9ca8-546032f815a9"
+    "bookendId": "3fc8c9a3-0b59-491f-853a-d09b80cf5f49"
+}'
+
+// Bookend users
+curl -X POST "http://localhost:8000/user" -H "Content-Type: application/json" -d '{
+    "name": "Amir",
+    "email": "amir@daplcorp.com"
 }'
