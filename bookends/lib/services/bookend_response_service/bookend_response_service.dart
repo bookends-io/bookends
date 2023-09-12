@@ -1,11 +1,16 @@
 import 'package:bookends/models/basic.dart';
 import 'package:bookends/services/bookend_response_service/i_bookend_response_service.dart';
+import 'package:bookends/services/bookend_response_service/response_utils.dart';
 import 'package:bookends/services/i_backend.dart';
 import 'package:bookends/services/local_file_service/i_local_file_service.dart';
 import 'package:bookends/utils/id_util.dart';
 import 'package:get_it/get_it.dart';
 
 class BookendResponseService extends IBookendResponseService {
+  static const String localStorageSubdirectory = 'responses';
+
+  List<Response> _responses = [];
+
   final Map<String, AnswerGroup> _answerGroups = {};
   final Map<String, Answer> _answers = {};
 
@@ -24,6 +29,29 @@ class BookendResponseService extends IBookendResponseService {
   DateTime? _lastSave;
   @override
   DateTime? get lastSave => _lastSave;
+
+  @override
+  Future<void> init() async {
+    final ILocalFileService localFileService = GetIt.I<ILocalFileService>();
+    // TODO: Pull from backend as well
+    // final IBackend backend = GetIt.I<IBackend>();
+
+    // Get all of the responses
+    final List<Map<String, dynamic>> responseJsons =
+        await localFileService.readAll(
+      directory: localFileService.getSubdirectory(
+        localStorageSubdirectory,
+      ),
+    );
+
+    // Convert the responses to objects
+    final List<Response> responses = [];
+    for (final Map<String, dynamic> responseJson in responseJsons) {
+      responses.add(Response.fromJson(responseJson));
+    }
+
+    _responses = responses;
+  }
 
   @override
   Response createNewResponse({
@@ -67,6 +95,8 @@ class BookendResponseService extends IBookendResponseService {
     _lastSave = DateTime.now();
 
     notifyListeners();
+
+    _responses.add(_currentResponse!);
 
     return _currentResponse!;
   }
@@ -121,31 +151,16 @@ class BookendResponseService extends IBookendResponseService {
   }
 
   @override
-  void updateQuestion({
-    required String answerGroupId,
+  Future<void> updateAnswer({
     required String answerId,
-    required dynamic answer,
-  }) {
+    required dynamic value,
+  }) async {
     if (_currentResponse == null) {
       return;
     }
 
     // Drill down and get the question that was answered
-    int answerGroupIndex = 0;
-    int answerIndex = 0;
-    Answer? answerObj;
-    for (AnswerGroup ag in _currentResponse!.answerGroups) {
-      if (ag.id == answerGroupId) {
-        for (Answer a in ag.answers) {
-          if (a.id == answerId) {
-            answerObj = a;
-            break;
-          }
-          answerIndex++;
-        }
-      }
-      answerGroupIndex++;
-    }
+    Answer? answerObj = getAnswer(answerId: answerId);
 
     // Stop if we weren't able to find an answer object
     if (answerObj == null) {
@@ -153,14 +168,14 @@ class BookendResponseService extends IBookendResponseService {
     }
 
     // Update the answer object
-    answerObj = answerObj.copyWith(answer: answer);
+    answerObj = answerObj.copyWith(answer: value);
 
     // Update the answer group
-    _currentResponse!.answerGroups[answerGroupIndex].answers[answerIndex] =
-        answerObj;
+    // _currentResponse!.answerGroups[answerGroupIndex].answers[answerIndex] =
+    //     answerObj;
 
     // Save the new data
-    saveResponse();
+    await saveResponse();
 
     // Notify listeners
     notifyListeners();
@@ -172,12 +187,30 @@ class BookendResponseService extends IBookendResponseService {
     final IBackend backend = GetIt.I<IBackend>();
 
     await localFileService.write(
-        _currentResponse!.id, _currentResponse!.toJson());
+      _currentResponse!.id,
+      _currentResponse!.toJson(),
+      directory: localFileService.getSubdirectory(
+        localStorageSubdirectory,
+      ),
+    );
     _lastSave = DateTime.now();
     var pushSuccess = await backend.pushResponse(_currentResponse!);
 
     if (!pushSuccess) {
       print('Failed to push response to backend');
+    }
+  }
+
+  @override
+  Future<List<Response>> getResponses({
+    bool onlyIncomplete = false,
+  }) async {
+    if (onlyIncomplete) {
+      return _responses
+          .where((r) => !ResponseUtils.responseIsComplete(response: r))
+          .toList();
+    } else {
+      return _responses;
     }
   }
 

@@ -32,6 +32,7 @@ void main() async {
 
   final IBookendResponseService bookendResponseService =
       BookendResponseService();
+  await bookendResponseService.init();
   GetIt.I.registerSingleton<IBookendResponseService>(bookendResponseService);
 
   runApp(const MyApp());

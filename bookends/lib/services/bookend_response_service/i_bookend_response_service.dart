@@ -14,6 +14,9 @@ abstract class IBookendResponseService with ChangeNotifier {
   /// The time of the last save
   DateTime? get lastSave;
 
+  /// Retreives all of the responses from local and cloud storage
+  Future<void> init();
+
   /// Creates a new response for the provided questionnaire
   Response createNewResponse({
     required Bookend bookend,
@@ -26,14 +29,18 @@ abstract class IBookendResponseService with ChangeNotifier {
   });
 
   /// Updates the response of the provided question ID with the given answer
-  void updateQuestion({
-    required String answerGroupId,
+  Future<void> updateAnswer({
     required String answerId,
-    required dynamic answer,
+    required dynamic value,
   });
 
   /// Saves the response locally, and if possible submits the response to the backend
   Future<void> saveResponse();
+
+  /// Gets the saved responses from the backend
+  Future<List<Response>> getResponses({
+    bool onlyIncomplete = false,
+  });
 
   /// Gets the answer group with the provided ID
   /// Uses the current response if no response ID is provided
