@@ -3,38 +3,38 @@ from typing import List, Optional
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi.middleware.cors import CORSMiddleware
-from crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
-from models.user import User
-from crud.bookends import create_bookend as create_bookend_crud
-from crud.bookends import update_bookend as update_bookend_crud
-from crud.bookends import delete_bookend as delete_bookend_crud
-from crud.bookends import get_bookend_by_id, get_all_bookends
-from models.bookends import Bookend
-from models.questionnaire import Questionnaire
-from crud.questionnaire import create_questionnaire as create_questionnaire_crud
-from crud.questionnaire import delete_questionnaire as delete_questionnaire_crud
-from crud.questionnaire import update_questionnaire as update_questionnaire_crud
-from crud.questionnaire import get_all_questionnaires, get_questionnaire_by_id
-from models.questions import Question
-from crud.questions import create_question as create_question_crud
-from crud.questions import get_question_by_id, get_all_questions
-from crud.questions import update_question as update_question_crud
-from crud.questions import delete_question as delete_question_crud
-from models.responses import Response as ResponseModel
-from crud.responses import create_response as create_response_crud
-from crud.responses import get_response_by_id, get_responses_by_bookend_id
-from crud.responses import update_response as update_response_crud
-from crud.responses import delete_response as delete_response_crud
-from models.answer_group import AnswerGroup as AnswerGroupModel
-from crud.answer_group import create_answer_group as create_answer_group_crud
-from crud.answer_group import get_answer_group_by_id, get_answer_groups_by_response_id
-from crud.answer_group import update_answer_group as update_answer_group_crud
-from crud.answer_group import delete_answer_group as delete_answer_group_crud
-from models.answers import Answer as AnswerModel
-from crud.answers import create_answer as create_answer_crud
-from crud.answers import get_answer_by_id, get_answers_by_answer_group_id
-from crud.answers import update_answer as update_answer_crud
-from crud.answers import delete_answer as delete_answer_crud
+from .crud.user import create_user, get_user_by_id, get_all_users, update_user, delete_user
+from .models.user import User
+from .crud.bookends import create_bookend as create_bookend_crud
+from .crud.bookends import update_bookend as update_bookend_crud
+from .crud.bookends import delete_bookend as delete_bookend_crud
+from .crud.bookends import get_bookend_by_id, get_all_bookends
+from .models.bookends import Bookend
+from .models.questionnaire import Questionnaire
+from .crud.questionnaire import create_questionnaire as create_questionnaire_crud
+from .crud.questionnaire import delete_questionnaire as delete_questionnaire_crud
+from .crud.questionnaire import update_questionnaire as update_questionnaire_crud
+from .crud.questionnaire import get_all_questionnaires, get_questionnaire_by_id
+from .models.questions import Question
+from .crud.questions import create_question as create_question_crud
+from .crud.questions import get_question_by_id, get_all_questions
+from .crud.questions import update_question as update_question_crud
+from .crud.questions import delete_question as delete_question_crud
+from .models.responses import Response as ResponseModel
+from .crud.responses import create_response as create_response_crud
+from .crud.responses import get_response_by_id, get_responses_by_bookend_id
+from .crud.responses import update_response as update_response_crud
+from .crud.responses import delete_response as delete_response_crud
+from .models.answer_group import AnswerGroup as AnswerGroupModel
+from .crud.answer_group import create_answer_group as create_answer_group_crud
+from .crud.answer_group import get_answer_group_by_id, get_answer_groups_by_response_id
+from .crud.answer_group import update_answer_group as update_answer_group_crud
+from .crud.answer_group import delete_answer_group as delete_answer_group_crud
+from .models.answers import Answer as AnswerModel
+from .crud.answers import create_answer as create_answer_crud
+from .crud.answers import get_answer_by_id, get_answers_by_answer_group_id
+from .crud.answers import update_answer as update_answer_crud
+from .crud.answers import delete_answer as delete_answer_crud
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -49,25 +49,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
 
 # User Section
-@app.post("/user/")
+@app.post("/user")
 def create_user_endpoint(user: User):
     return create_user(user)
 
-@app.get("/user/{id}/")
+@app.get("/user/{id}")
 def get_user_by_id_endpoint(id: str):
     return get_user_by_id(id)
 
-@app.get("/users/")
+@app.get("/users")
 def get_all_users_endpoint():
     return get_all_users()
 
-@app.put("/user/{id}/")
+@app.put("/user/{id}")
 def update_user_endpoint(id: str, user: User):
     return update_user(id, user)
 
-@app.delete("/user/{id}/")
+@app.delete("/user/{id}")
 def delete_user_endpoint(id: str):
     delete_user(id)
     return {"message": "User deleted successfully"}
@@ -303,7 +306,7 @@ def delete_question(id: str):
 
 # Reponse Section
 
-@app.post("/responses/")
+@app.post("/responses")
 def create_response(response: ResponseModel):
     new_response = create_response_crud(response)
     return new_response
@@ -341,6 +344,7 @@ def create_answer(answer: AnswerModel):
         answer_group_data = {
             "responseId": answer.responseId,
             "questionnaireId": answer.questionnaireId,
+            "userId": answer.userId,
             "answers": [new_answer.id]
         }
         answer_group = create_answer_group_crud(AnswerGroupModel(**answer_group_data))
@@ -396,7 +400,7 @@ def delete_answer(id: str):
 
 # Answer Group Section
 
-@app.post("/answer-groups/")
+@app.post("/answer-groups")
 def create_answer_group(answer_group: AnswerGroupModel):
     new_answer_group = create_answer_group_crud(answer_group)
     return new_answer_group
