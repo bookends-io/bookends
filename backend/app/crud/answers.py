@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from models.answers import Answer
+from ..models.answers import Answer
 from typing import List
 import os
 from dotenv import load_dotenv

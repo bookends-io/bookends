@@ -1,4 +1,4 @@
-from models.bookends import Bookend
+from ..models.bookends import Bookend
 from typing import List
 from pymongo import MongoClient
 import os

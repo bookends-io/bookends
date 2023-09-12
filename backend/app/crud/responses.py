@@ -1,4 +1,4 @@
-from models.responses import Response
+from ..models.responses import Response
 from typing import List
 from pymongo import MongoClient
 import os
