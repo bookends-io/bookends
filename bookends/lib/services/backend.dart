@@ -22,12 +22,13 @@ class Backend extends IBackend {
     try {
       final bookends = await http.get(
         Uri.parse(
-          '$_url/bookendall/getall?fields=id,name,public,questionnaires',
+          '${_url}bookendall/getall?fields=id,name,public,questionnaires',
         ),
         // headers: {
         //   'Content-Type': 'application/json',
         // },
       );
+      print('getBookends(), ${bookends.body}');
 
       final Map<String, dynamic> bookendData = jsonDecode(bookends.body);
       print(bookendData);

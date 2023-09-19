@@ -8,9 +8,6 @@ abstract class IBookendResponseService with ChangeNotifier {
   /// The questionnaire the user is currently responding to
   Questionnaire? get currentQuestionnaire;
 
-  /// The index of the answer group the user is responding to.
-  int? get currentAnswerGroupIndex;
-
   /// The time of the last save
   DateTime? get lastSave;
 
@@ -26,6 +23,12 @@ abstract class IBookendResponseService with ChangeNotifier {
   void continueResponse({
     required Response response,
     required Questionnaire questionnaire,
+  });
+
+  /// Sets the current response to the provided response
+  /// This function is used when the user wants to switch the response they are working on
+  void setResponse({
+    required Response response,
   });
 
   /// Updates the response of the provided question ID with the given answer

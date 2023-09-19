@@ -19,28 +19,61 @@ class _ResponseDetailPageState extends State<ResponseDetailPage> {
       GetIt.I<IBookendResponseService>();
   final IBookendService _bookendService = GetIt.I<IBookendService>();
 
+  final Map<int, bool> _expandedAnswerGroups = {};
+
   @override
   Widget build(BuildContext context) {
     final Bookend? bookend = _bookendService
         .getBookend(_bookendResponseService.currentResponse!.bookendId);
 
+    final List<ExpansionPanel> answerGroupPanels = _bookendResponseService
+        .currentResponse!.answerGroups
+        .map<ExpansionPanel>((answerGroup) {
+      int index = _bookendResponseService.currentResponse!.answerGroups
+          .indexOf(answerGroup);
+      return ExpansionPanel(
+        headerBuilder: (BuildContext context, bool isExpanded) {
+          return ListTile(
+            title: Text('Answer Group ${index + 1}'),
+          );
+        },
+        body: AnswerGroupWidget(answerGroupId: answerGroup.id),
+        isExpanded: _expandedAnswerGroups[index] ?? false,
+      );
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
-        title: Text(
-            '${bookend?.name} - ${_bookendResponseService.currentQuestionnaire!.name}'),
+        title: Text(bookend?.name ?? ''),
       ),
-      body: ListView.builder(
-        itemCount: _bookendResponseService.currentResponse!.answerGroups.length,
-        itemBuilder: (context, index) {
-          return Container(
-            padding: const EdgeInsets.all(8),
-            child: AnswerGroupWidget(
-              answerGroupId: _bookendResponseService
-                  .currentResponse!.answerGroups[index].id,
-            ),
-          );
-        },
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              ExpansionPanelList(
+                expansionCallback: (int index, bool isExpanded) {
+                  setState(() {
+                    if (isExpanded) {
+                      _expandedAnswerGroups[index] = false;
+                    } else {
+                      _expandedAnswerGroups[index] = true;
+                    }
+                  });
+                },
+                children: answerGroupPanels,
+              ),
+              MaterialButton(
+                onPressed: () async {
+                  _bookendResponseService.saveResponse();
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

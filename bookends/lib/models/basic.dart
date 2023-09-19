@@ -7,6 +7,8 @@ part 'basic.g.dart';
 class Bookend with _$Bookend {
   @JsonSerializable(explicitToJson: true)
   factory Bookend({
+    DateTime? createdAt,
+    DateTime? updatedAt,
     required String id,
     required String name,
     // String? description,
@@ -22,6 +24,8 @@ class Bookend with _$Bookend {
 class Questionnaire with _$Questionnaire {
   @JsonSerializable(explicitToJson: true)
   factory Questionnaire({
+    DateTime? createdAt,
+    DateTime? updatedAt,
     required String id,
     required String name,
     String? description,
@@ -36,6 +40,8 @@ class Questionnaire with _$Questionnaire {
 class Question with _$Question {
   @JsonSerializable(explicitToJson: true)
   factory Question({
+    DateTime? createdAt,
+    DateTime? updatedAt,
     required String id,
     required String text,
     String? description,
@@ -51,6 +57,8 @@ class Question with _$Question {
 class Response with _$Response {
   @JsonSerializable(explicitToJson: true)
   factory Response({
+    DateTime? createdAt,
+    DateTime? updatedAt,
     required String id,
     required String bookendId,
     required List<String> questionnaireIds,
@@ -66,6 +74,8 @@ class Response with _$Response {
 class AnswerGroup with _$AnswerGroup {
   @JsonSerializable(explicitToJson: true)
   factory AnswerGroup({
+    DateTime? createdAt,
+    DateTime? updatedAt,
     required String id,
     required String responseId,
     required String questionnaireId,
@@ -80,6 +90,8 @@ class AnswerGroup with _$AnswerGroup {
 class Answer with _$Answer {
   @JsonSerializable(explicitToJson: true)
   factory Answer({
+    DateTime? createdAt,
+    DateTime? updatedAt,
     required String id,
     required String answerGroupId,
     required String questionnaireId,

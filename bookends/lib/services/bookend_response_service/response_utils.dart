@@ -7,13 +7,15 @@ class ResponseUtils {
     required Response response,
   }) {
     final Set<String> questionnaireIds = Set.from(response.questionnaireIds);
+    print('responseIsComplete, questionnaireIds: $questionnaireIds');
     final Set<String> answerGroupQuestionnaireIds = Set.from(
       response.answerGroups.map((ag) => ag.questionnaireId),
     );
+    print(
+        'responseIsComplete, answerGroupQuestionnaireIds: $answerGroupQuestionnaireIds');
 
     // Ensure that they are both equal
-    if (questionnaireIds.length == answerGroupQuestionnaireIds.length &&
-        questionnaireIds.difference(answerGroupQuestionnaireIds).isNotEmpty) {
+    if (questionnaireIds.difference(answerGroupQuestionnaireIds).isNotEmpty) {
       return false;
     }
 

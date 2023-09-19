@@ -7,6 +7,12 @@ part of 'basic.dart';
 // **************************************************************************
 
 _$_Bookend _$$_BookendFromJson(Map<String, dynamic> json) => _$_Bookend(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String,
       name: json['name'] as String,
       public: json['public'] as bool,
@@ -17,6 +23,8 @@ _$_Bookend _$$_BookendFromJson(Map<String, dynamic> json) => _$_Bookend(
 
 Map<String, dynamic> _$$_BookendToJson(_$_Bookend instance) =>
     <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'name': instance.name,
       'public': instance.public,
@@ -25,6 +33,12 @@ Map<String, dynamic> _$$_BookendToJson(_$_Bookend instance) =>
 
 _$_Questionnaire _$$_QuestionnaireFromJson(Map<String, dynamic> json) =>
     _$_Questionnaire(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String,
       name: json['name'] as String,
       description: json['description'] as String?,
@@ -35,6 +49,8 @@ _$_Questionnaire _$$_QuestionnaireFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_QuestionnaireToJson(_$_Questionnaire instance) =>
     <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
@@ -42,6 +58,12 @@ Map<String, dynamic> _$$_QuestionnaireToJson(_$_Questionnaire instance) =>
     };
 
 _$_Question _$$_QuestionFromJson(Map<String, dynamic> json) => _$_Question(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String,
       text: json['text'] as String,
       description: json['description'] as String?,
@@ -53,6 +75,8 @@ _$_Question _$$_QuestionFromJson(Map<String, dynamic> json) => _$_Question(
 
 Map<String, dynamic> _$$_QuestionToJson(_$_Question instance) =>
     <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'text': instance.text,
       'description': instance.description,
@@ -61,6 +85,12 @@ Map<String, dynamic> _$$_QuestionToJson(_$_Question instance) =>
     };
 
 _$_Response _$$_ResponseFromJson(Map<String, dynamic> json) => _$_Response(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String,
       bookendId: json['bookendId'] as String,
       questionnaireIds: (json['questionnaireIds'] as List<dynamic>)
@@ -74,6 +104,8 @@ _$_Response _$$_ResponseFromJson(Map<String, dynamic> json) => _$_Response(
 
 Map<String, dynamic> _$$_ResponseToJson(_$_Response instance) =>
     <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'bookendId': instance.bookendId,
       'questionnaireIds': instance.questionnaireIds,
@@ -83,6 +115,12 @@ Map<String, dynamic> _$$_ResponseToJson(_$_Response instance) =>
 
 _$_AnswerGroup _$$_AnswerGroupFromJson(Map<String, dynamic> json) =>
     _$_AnswerGroup(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String,
       responseId: json['responseId'] as String,
       questionnaireId: json['questionnaireId'] as String,
@@ -93,6 +131,8 @@ _$_AnswerGroup _$$_AnswerGroupFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$_AnswerGroupToJson(_$_AnswerGroup instance) =>
     <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'responseId': instance.responseId,
       'questionnaireId': instance.questionnaireId,
@@ -100,6 +140,12 @@ Map<String, dynamic> _$$_AnswerGroupToJson(_$_AnswerGroup instance) =>
     };
 
 _$_Answer _$$_AnswerFromJson(Map<String, dynamic> json) => _$_Answer(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
       id: json['id'] as String,
       answerGroupId: json['answerGroupId'] as String,
       questionnaireId: json['questionnaireId'] as String,
@@ -108,6 +154,8 @@ _$_Answer _$$_AnswerFromJson(Map<String, dynamic> json) => _$_Answer(
     );
 
 Map<String, dynamic> _$$_AnswerToJson(_$_Answer instance) => <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
       'id': instance.id,
       'answerGroupId': instance.answerGroupId,
       'questionnaireId': instance.questionnaireId,

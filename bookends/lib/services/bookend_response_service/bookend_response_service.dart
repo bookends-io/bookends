@@ -22,10 +22,6 @@ class BookendResponseService extends IBookendResponseService {
   @override
   Questionnaire? get currentQuestionnaire => _currentQuestionnaire;
 
-  int? _currentAnswerGroupIndex;
-  @override
-  int? get currentAnswerGroupIndex => _currentAnswerGroupIndex;
-
   DateTime? _lastSave;
   @override
   DateTime? get lastSave => _lastSave;
@@ -79,7 +75,7 @@ class BookendResponseService extends IBookendResponseService {
     _currentResponse = Response(
       id: responseId,
       bookendId: bookend.id,
-      questionnaireIds: [questionnaire.id],
+      questionnaireIds: bookend.questionnaires.map((q) => q.id).toList(),
       userId: 'someUserId',
       answerGroups: [
         AnswerGroup(
@@ -131,11 +127,23 @@ class BookendResponseService extends IBookendResponseService {
       answers: answers,
     );
 
-    _currentResponse!.answerGroups.add(newAnswerGroup);
+    _currentResponse = _currentResponse!.copyWith(
+      answerGroups: List.from(_currentResponse!.answerGroups)
+        ..add(newAnswerGroup),
+    );
+
     _unpackCurrentResponse();
 
-    _currentAnswerGroupIndex = _currentResponse!.answerGroups.length - 1;
+    notifyListeners();
+  }
 
+  @override
+  void setResponse({
+    required Response response,
+  }) {
+    _currentResponse = response;
+    _currentQuestionnaire = null;
+    _unpackCurrentResponse();
     notifyListeners();
   }
 

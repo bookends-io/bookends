@@ -20,6 +20,8 @@ Bookend _$BookendFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Bookend {
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError; // String? description,
   bool get public => throw _privateConstructorUsedError;
@@ -36,7 +38,9 @@ abstract class $BookendCopyWith<$Res> {
       _$BookendCopyWithImpl<$Res, Bookend>;
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String name,
       bool public,
       List<Questionnaire> questionnaires});
@@ -55,12 +59,22 @@ class _$BookendCopyWithImpl<$Res, $Val extends Bookend>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? name = null,
     Object? public = null,
     Object? questionnaires = null,
   }) {
     return _then(_value.copyWith(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -89,7 +103,9 @@ abstract class _$$_BookendCopyWith<$Res> implements $BookendCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String name,
       bool public,
       List<Questionnaire> questionnaires});
@@ -105,12 +121,22 @@ class __$$_BookendCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? name = null,
     Object? public = null,
     Object? questionnaires = null,
   }) {
     return _then(_$_Bookend(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -136,7 +162,9 @@ class __$$_BookendCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Bookend implements _Bookend {
   _$_Bookend(
-      {required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      required this.id,
       required this.name,
       required this.public,
       required final List<Questionnaire> questionnaires})
@@ -145,6 +173,10 @@ class _$_Bookend implements _Bookend {
   factory _$_Bookend.fromJson(Map<String, dynamic> json) =>
       _$$_BookendFromJson(json);
 
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String id;
   @override
@@ -162,7 +194,7 @@ class _$_Bookend implements _Bookend {
 
   @override
   String toString() {
-    return 'Bookend(id: $id, name: $name, public: $public, questionnaires: $questionnaires)';
+    return 'Bookend(createdAt: $createdAt, updatedAt: $updatedAt, id: $id, name: $name, public: $public, questionnaires: $questionnaires)';
   }
 
   @override
@@ -170,6 +202,10 @@ class _$_Bookend implements _Bookend {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Bookend &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.public, public) || other.public == public) &&
@@ -179,8 +215,8 @@ class _$_Bookend implements _Bookend {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, public,
-      const DeepCollectionEquality().hash(_questionnaires));
+  int get hashCode => Object.hash(runtimeType, createdAt, updatedAt, id, name,
+      public, const DeepCollectionEquality().hash(_questionnaires));
 
   @JsonKey(ignore: true)
   @override
@@ -198,13 +234,19 @@ class _$_Bookend implements _Bookend {
 
 abstract class _Bookend implements Bookend {
   factory _Bookend(
-      {required final String id,
+      {final DateTime? createdAt,
+      final DateTime? updatedAt,
+      required final String id,
       required final String name,
       required final bool public,
       required final List<Questionnaire> questionnaires}) = _$_Bookend;
 
   factory _Bookend.fromJson(Map<String, dynamic> json) = _$_Bookend.fromJson;
 
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String get id;
   @override
@@ -225,6 +267,8 @@ Questionnaire _$QuestionnaireFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Questionnaire {
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -243,7 +287,12 @@ abstract class $QuestionnaireCopyWith<$Res> {
       _$QuestionnaireCopyWithImpl<$Res, Questionnaire>;
   @useResult
   $Res call(
-      {String id, String name, String? description, List<Question> questions});
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
+      String name,
+      String? description,
+      List<Question> questions});
 }
 
 /// @nodoc
@@ -259,12 +308,22 @@ class _$QuestionnaireCopyWithImpl<$Res, $Val extends Questionnaire>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? name = null,
     Object? description = freezed,
     Object? questions = null,
   }) {
     return _then(_value.copyWith(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -294,7 +353,12 @@ abstract class _$$_QuestionnaireCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String name, String? description, List<Question> questions});
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
+      String name,
+      String? description,
+      List<Question> questions});
 }
 
 /// @nodoc
@@ -308,12 +372,22 @@ class __$$_QuestionnaireCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? name = null,
     Object? description = freezed,
     Object? questions = null,
   }) {
     return _then(_$_Questionnaire(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -339,7 +413,9 @@ class __$$_QuestionnaireCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Questionnaire implements _Questionnaire {
   _$_Questionnaire(
-      {required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      required this.id,
       required this.name,
       this.description,
       required final List<Question> questions})
@@ -348,6 +424,10 @@ class _$_Questionnaire implements _Questionnaire {
   factory _$_Questionnaire.fromJson(Map<String, dynamic> json) =>
       _$$_QuestionnaireFromJson(json);
 
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String id;
   @override
@@ -364,7 +444,7 @@ class _$_Questionnaire implements _Questionnaire {
 
   @override
   String toString() {
-    return 'Questionnaire(id: $id, name: $name, description: $description, questions: $questions)';
+    return 'Questionnaire(createdAt: $createdAt, updatedAt: $updatedAt, id: $id, name: $name, description: $description, questions: $questions)';
   }
 
   @override
@@ -372,6 +452,10 @@ class _$_Questionnaire implements _Questionnaire {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Questionnaire &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.description, description) ||
@@ -382,8 +466,8 @@ class _$_Questionnaire implements _Questionnaire {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, description,
-      const DeepCollectionEquality().hash(_questions));
+  int get hashCode => Object.hash(runtimeType, createdAt, updatedAt, id, name,
+      description, const DeepCollectionEquality().hash(_questions));
 
   @JsonKey(ignore: true)
   @override
@@ -401,7 +485,9 @@ class _$_Questionnaire implements _Questionnaire {
 
 abstract class _Questionnaire implements Questionnaire {
   factory _Questionnaire(
-      {required final String id,
+      {final DateTime? createdAt,
+      final DateTime? updatedAt,
+      required final String id,
       required final String name,
       final String? description,
       required final List<Question> questions}) = _$_Questionnaire;
@@ -409,6 +495,10 @@ abstract class _Questionnaire implements Questionnaire {
   factory _Questionnaire.fromJson(Map<String, dynamic> json) =
       _$_Questionnaire.fromJson;
 
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String get id;
   @override
@@ -429,6 +519,8 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Question {
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get text => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
@@ -447,7 +539,9 @@ abstract class $QuestionCopyWith<$Res> {
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String text,
       String? description,
       String type,
@@ -467,6 +561,8 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? text = null,
     Object? description = freezed,
@@ -474,6 +570,14 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? reliesOn = freezed,
   }) {
     return _then(_value.copyWith(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -506,7 +610,9 @@ abstract class _$$_QuestionCopyWith<$Res> implements $QuestionCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String text,
       String? description,
       String type,
@@ -524,6 +630,8 @@ class __$$_QuestionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? text = null,
     Object? description = freezed,
@@ -531,6 +639,14 @@ class __$$_QuestionCopyWithImpl<$Res>
     Object? reliesOn = freezed,
   }) {
     return _then(_$_Question(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -560,7 +676,9 @@ class __$$_QuestionCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Question implements _Question {
   _$_Question(
-      {required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      required this.id,
       required this.text,
       this.description,
       required this.type,
@@ -570,6 +688,10 @@ class _$_Question implements _Question {
   factory _$_Question.fromJson(Map<String, dynamic> json) =>
       _$$_QuestionFromJson(json);
 
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String id;
   @override
@@ -590,7 +712,7 @@ class _$_Question implements _Question {
 
   @override
   String toString() {
-    return 'Question(id: $id, text: $text, description: $description, type: $type, reliesOn: $reliesOn)';
+    return 'Question(createdAt: $createdAt, updatedAt: $updatedAt, id: $id, text: $text, description: $description, type: $type, reliesOn: $reliesOn)';
   }
 
   @override
@@ -598,6 +720,10 @@ class _$_Question implements _Question {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Question &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.description, description) ||
@@ -608,8 +734,8 @@ class _$_Question implements _Question {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, text, description, type,
-      const DeepCollectionEquality().hash(_reliesOn));
+  int get hashCode => Object.hash(runtimeType, createdAt, updatedAt, id, text,
+      description, type, const DeepCollectionEquality().hash(_reliesOn));
 
   @JsonKey(ignore: true)
   @override
@@ -627,7 +753,9 @@ class _$_Question implements _Question {
 
 abstract class _Question implements Question {
   factory _Question(
-      {required final String id,
+      {final DateTime? createdAt,
+      final DateTime? updatedAt,
+      required final String id,
       required final String text,
       final String? description,
       required final String type,
@@ -635,6 +763,10 @@ abstract class _Question implements Question {
 
   factory _Question.fromJson(Map<String, dynamic> json) = _$_Question.fromJson;
 
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String get id;
   @override
@@ -657,6 +789,8 @@ Response _$ResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Response {
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get bookendId => throw _privateConstructorUsedError;
   List<String> get questionnaireIds => throw _privateConstructorUsedError;
@@ -675,7 +809,9 @@ abstract class $ResponseCopyWith<$Res> {
       _$ResponseCopyWithImpl<$Res, Response>;
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String bookendId,
       List<String> questionnaireIds,
       String userId,
@@ -695,6 +831,8 @@ class _$ResponseCopyWithImpl<$Res, $Val extends Response>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? bookendId = null,
     Object? questionnaireIds = null,
@@ -702,6 +840,14 @@ class _$ResponseCopyWithImpl<$Res, $Val extends Response>
     Object? answerGroups = null,
   }) {
     return _then(_value.copyWith(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -734,7 +880,9 @@ abstract class _$$_ResponseCopyWith<$Res> implements $ResponseCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String bookendId,
       List<String> questionnaireIds,
       String userId,
@@ -752,6 +900,8 @@ class __$$_ResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? bookendId = null,
     Object? questionnaireIds = null,
@@ -759,6 +909,14 @@ class __$$_ResponseCopyWithImpl<$Res>
     Object? answerGroups = null,
   }) {
     return _then(_$_Response(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -788,7 +946,9 @@ class __$$_ResponseCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Response implements _Response {
   _$_Response(
-      {required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      required this.id,
       required this.bookendId,
       required final List<String> questionnaireIds,
       required this.userId,
@@ -799,6 +959,10 @@ class _$_Response implements _Response {
   factory _$_Response.fromJson(Map<String, dynamic> json) =>
       _$$_ResponseFromJson(json);
 
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String id;
   @override
@@ -824,7 +988,7 @@ class _$_Response implements _Response {
 
   @override
   String toString() {
-    return 'Response(id: $id, bookendId: $bookendId, questionnaireIds: $questionnaireIds, userId: $userId, answerGroups: $answerGroups)';
+    return 'Response(createdAt: $createdAt, updatedAt: $updatedAt, id: $id, bookendId: $bookendId, questionnaireIds: $questionnaireIds, userId: $userId, answerGroups: $answerGroups)';
   }
 
   @override
@@ -832,6 +996,10 @@ class _$_Response implements _Response {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Response &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.bookendId, bookendId) ||
                 other.bookendId == bookendId) &&
@@ -846,6 +1014,8 @@ class _$_Response implements _Response {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      createdAt,
+      updatedAt,
       id,
       bookendId,
       const DeepCollectionEquality().hash(_questionnaireIds),
@@ -868,7 +1038,9 @@ class _$_Response implements _Response {
 
 abstract class _Response implements Response {
   factory _Response(
-      {required final String id,
+      {final DateTime? createdAt,
+      final DateTime? updatedAt,
+      required final String id,
       required final String bookendId,
       required final List<String> questionnaireIds,
       required final String userId,
@@ -876,6 +1048,10 @@ abstract class _Response implements Response {
 
   factory _Response.fromJson(Map<String, dynamic> json) = _$_Response.fromJson;
 
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String get id;
   @override
@@ -898,6 +1074,8 @@ AnswerGroup _$AnswerGroupFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AnswerGroup {
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get responseId => throw _privateConstructorUsedError;
   String get questionnaireId => throw _privateConstructorUsedError;
@@ -916,7 +1094,9 @@ abstract class $AnswerGroupCopyWith<$Res> {
       _$AnswerGroupCopyWithImpl<$Res, AnswerGroup>;
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String responseId,
       String questionnaireId,
       List<Answer> answers});
@@ -935,12 +1115,22 @@ class _$AnswerGroupCopyWithImpl<$Res, $Val extends AnswerGroup>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? responseId = null,
     Object? questionnaireId = null,
     Object? answers = null,
   }) {
     return _then(_value.copyWith(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -970,7 +1160,9 @@ abstract class _$$_AnswerGroupCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String responseId,
       String questionnaireId,
       List<Answer> answers});
@@ -987,12 +1179,22 @@ class __$$_AnswerGroupCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? responseId = null,
     Object? questionnaireId = null,
     Object? answers = null,
   }) {
     return _then(_$_AnswerGroup(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -1018,7 +1220,9 @@ class __$$_AnswerGroupCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_AnswerGroup implements _AnswerGroup {
   _$_AnswerGroup(
-      {required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      required this.id,
       required this.responseId,
       required this.questionnaireId,
       required final List<Answer> answers})
@@ -1027,6 +1231,10 @@ class _$_AnswerGroup implements _AnswerGroup {
   factory _$_AnswerGroup.fromJson(Map<String, dynamic> json) =>
       _$$_AnswerGroupFromJson(json);
 
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String id;
   @override
@@ -1043,7 +1251,7 @@ class _$_AnswerGroup implements _AnswerGroup {
 
   @override
   String toString() {
-    return 'AnswerGroup(id: $id, responseId: $responseId, questionnaireId: $questionnaireId, answers: $answers)';
+    return 'AnswerGroup(createdAt: $createdAt, updatedAt: $updatedAt, id: $id, responseId: $responseId, questionnaireId: $questionnaireId, answers: $answers)';
   }
 
   @override
@@ -1051,6 +1259,10 @@ class _$_AnswerGroup implements _AnswerGroup {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AnswerGroup &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.responseId, responseId) ||
                 other.responseId == responseId) &&
@@ -1061,7 +1273,13 @@ class _$_AnswerGroup implements _AnswerGroup {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, responseId, questionnaireId,
+  int get hashCode => Object.hash(
+      runtimeType,
+      createdAt,
+      updatedAt,
+      id,
+      responseId,
+      questionnaireId,
       const DeepCollectionEquality().hash(_answers));
 
   @JsonKey(ignore: true)
@@ -1080,7 +1298,9 @@ class _$_AnswerGroup implements _AnswerGroup {
 
 abstract class _AnswerGroup implements AnswerGroup {
   factory _AnswerGroup(
-      {required final String id,
+      {final DateTime? createdAt,
+      final DateTime? updatedAt,
+      required final String id,
       required final String responseId,
       required final String questionnaireId,
       required final List<Answer> answers}) = _$_AnswerGroup;
@@ -1088,6 +1308,10 @@ abstract class _AnswerGroup implements AnswerGroup {
   factory _AnswerGroup.fromJson(Map<String, dynamic> json) =
       _$_AnswerGroup.fromJson;
 
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String get id;
   @override
@@ -1108,6 +1332,8 @@ Answer _$AnswerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Answer {
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   String get answerGroupId => throw _privateConstructorUsedError;
   String get questionnaireId => throw _privateConstructorUsedError;
@@ -1125,7 +1351,9 @@ abstract class $AnswerCopyWith<$Res> {
       _$AnswerCopyWithImpl<$Res, Answer>;
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String answerGroupId,
       String questionnaireId,
       String questionId,
@@ -1145,6 +1373,8 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? answerGroupId = null,
     Object? questionnaireId = null,
@@ -1152,6 +1382,14 @@ class _$AnswerCopyWithImpl<$Res, $Val extends Answer>
     Object? answer = freezed,
   }) {
     return _then(_value.copyWith(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -1183,7 +1421,9 @@ abstract class _$$_AnswerCopyWith<$Res> implements $AnswerCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {DateTime? createdAt,
+      DateTime? updatedAt,
+      String id,
       String answerGroupId,
       String questionnaireId,
       String questionId,
@@ -1200,6 +1440,8 @@ class __$$_AnswerCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
     Object? id = null,
     Object? answerGroupId = null,
     Object? questionnaireId = null,
@@ -1207,6 +1449,14 @@ class __$$_AnswerCopyWithImpl<$Res>
     Object? answer = freezed,
   }) {
     return _then(_$_Answer(
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -1236,7 +1486,9 @@ class __$$_AnswerCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_Answer implements _Answer {
   _$_Answer(
-      {required this.id,
+      {this.createdAt,
+      this.updatedAt,
+      required this.id,
       required this.answerGroupId,
       required this.questionnaireId,
       required this.questionId,
@@ -1245,6 +1497,10 @@ class _$_Answer implements _Answer {
   factory _$_Answer.fromJson(Map<String, dynamic> json) =>
       _$$_AnswerFromJson(json);
 
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
   @override
   final String id;
   @override
@@ -1258,7 +1514,7 @@ class _$_Answer implements _Answer {
 
   @override
   String toString() {
-    return 'Answer(id: $id, answerGroupId: $answerGroupId, questionnaireId: $questionnaireId, questionId: $questionId, answer: $answer)';
+    return 'Answer(createdAt: $createdAt, updatedAt: $updatedAt, id: $id, answerGroupId: $answerGroupId, questionnaireId: $questionnaireId, questionId: $questionId, answer: $answer)';
   }
 
   @override
@@ -1266,6 +1522,10 @@ class _$_Answer implements _Answer {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Answer &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.answerGroupId, answerGroupId) ||
                 other.answerGroupId == answerGroupId) &&
@@ -1278,8 +1538,15 @@ class _$_Answer implements _Answer {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, answerGroupId,
-      questionnaireId, questionId, const DeepCollectionEquality().hash(answer));
+  int get hashCode => Object.hash(
+      runtimeType,
+      createdAt,
+      updatedAt,
+      id,
+      answerGroupId,
+      questionnaireId,
+      questionId,
+      const DeepCollectionEquality().hash(answer));
 
   @JsonKey(ignore: true)
   @override
@@ -1297,7 +1564,9 @@ class _$_Answer implements _Answer {
 
 abstract class _Answer implements Answer {
   factory _Answer(
-      {required final String id,
+      {final DateTime? createdAt,
+      final DateTime? updatedAt,
+      required final String id,
       required final String answerGroupId,
       required final String questionnaireId,
       required final String questionId,
@@ -1305,6 +1574,10 @@ abstract class _Answer implements Answer {
 
   factory _Answer.fromJson(Map<String, dynamic> json) = _$_Answer.fromJson;
 
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
   @override
   String get id;
   @override

@@ -16,13 +16,16 @@ class ResponseButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final IBookendService bookendService = GetIt.I<IBookendService>();
+    final Bookend? bookend = bookendService.getBookend(response.bookendId);
+
     return Row(
       children: [
         MaterialButton(
           onPressed: () {
             final IBookendResponseService bookendResponseService =
                 GetIt.I<IBookendResponseService>();
-            final IBookendService bookendService = GetIt.I<IBookendService>();
+
             final Questionnaire? questionnaire =
                 bookendService.getQuestionnaire(
               ResponseUtils.getNextQuestionnaireId(
@@ -32,18 +35,24 @@ class ResponseButtonWidget extends StatelessWidget {
             );
             print('Questionnaire: $questionnaire');
 
+            // Set the response or continue it based on if we found a questionnaire
             if (questionnaire == null) {
-              return;
+              bookendResponseService.setResponse(
+                response: response,
+              );
+            } else {
+              bookendResponseService.continueResponse(
+                response: response,
+                questionnaire: questionnaire,
+              );
             }
 
-            bookendResponseService.continueResponse(
-              response: response,
-              questionnaire: questionnaire,
-            );
+            // Go to the response detail page
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const ResponseDetailPage()),
+                builder: (context) => const ResponseDetailPage(),
+              ),
             );
           },
           child: Container(
@@ -60,7 +69,7 @@ class ResponseButtonWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  response.id,
+                  '${bookend?.name} - ${response.createdAt ?? DateTime.now()}',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Text(
