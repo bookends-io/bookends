@@ -11,5 +11,5 @@ class Answer(BaseModel):
     questionId: str
     answer: str
     userId: str
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: Optional[datetime] = None
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    updatedAt: Optional[datetime] = None

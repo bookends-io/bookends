@@ -9,5 +9,5 @@ class Bookend(BaseModel):
     description: Optional[str] = None
     public: bool
     questionnaires: Optional[List[str]] = None
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: Optional[datetime] = None
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    updatedAt: Optional[datetime] = None

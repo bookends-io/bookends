@@ -9,5 +9,5 @@ class Response(BaseModel):
     questionnaireId: str
     userId: str
     answers: List[AnswerGroup]
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: Optional[datetime] = None
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
+    updatedAt: Optional[datetime] = None
