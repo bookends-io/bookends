@@ -5,7 +5,7 @@ class LoggerUtil {
 
   LoggerUtil({
     required String className,
-  });
+  }) : logger = ;
 
   static Logger logger = Logger(
     level: Level.debug,
