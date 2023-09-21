@@ -3,6 +3,7 @@ import 'package:bookends/pages/home/response_detail_page.dart';
 import 'package:bookends/services/bookend_response_service/i_bookend_response_service.dart';
 import 'package:bookends/services/bookend_response_service/response_utils.dart';
 import 'package:bookends/services/bookend_service/i_bookend_service.dart';
+import 'package:bookends/utils/logger_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -33,7 +34,8 @@ class ResponseButtonWidget extends StatelessWidget {
                   ) ??
                   '',
             );
-            print('Questionnaire: $questionnaire');
+            LoggerUtil.logger.i(
+                'ResponseButtonWidget onPressed, questionnaire: $questionnaire');
 
             // Set the response or continue it based on if we found a questionnaire
             if (questionnaire == null) {

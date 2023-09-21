@@ -4,6 +4,7 @@ import 'package:bookends/services/bookend_response_service/response_utils.dart';
 import 'package:bookends/services/i_backend.dart';
 import 'package:bookends/services/local_file_service/i_local_file_service.dart';
 import 'package:bookends/utils/id_util.dart';
+import 'package:bookends/utils/logger_util.dart';
 import 'package:get_it/get_it.dart';
 
 class BookendResponseService extends IBookendResponseService {
@@ -28,6 +29,7 @@ class BookendResponseService extends IBookendResponseService {
 
   @override
   Future<void> init() async {
+    LoggerUtil.logger.d('BookendResponseService init');
     final ILocalFileService localFileService = GetIt.I<ILocalFileService>();
     // TODO: Pull from backend as well
     // final IBackend backend = GetIt.I<IBackend>();
@@ -53,6 +55,8 @@ class BookendResponseService extends IBookendResponseService {
   Response createNewResponse({
     required Bookend bookend,
   }) {
+    LoggerUtil.logger
+        .d('BookendResponseService createNewResponse, bookend: $bookend');
     final String responseId = IdUtil.generateId();
 
     final List<Answer> answers = [];
@@ -102,6 +106,9 @@ class BookendResponseService extends IBookendResponseService {
     required Response response,
     required Questionnaire questionnaire,
   }) {
+    LoggerUtil.logger.d(
+      'BookendResponseService continueResponse, response: $response, questionnaire: $questionnaire',
+    );
     _currentResponse = response;
     _currentQuestionnaire = questionnaire;
 
@@ -141,6 +148,8 @@ class BookendResponseService extends IBookendResponseService {
   void setResponse({
     required Response response,
   }) {
+    LoggerUtil.logger
+        .d('BookendResponseService setResponse, response: $response');
     _currentResponse = response;
     _currentQuestionnaire = null;
     _unpackCurrentResponse();
@@ -163,6 +172,9 @@ class BookendResponseService extends IBookendResponseService {
     required String answerId,
     required dynamic value,
   }) async {
+    LoggerUtil.logger.d(
+      'BookendResponseService updateAnswer, answerId: $answerId, value: $value',
+    );
     if (_currentResponse == null) {
       return;
     }
@@ -191,6 +203,7 @@ class BookendResponseService extends IBookendResponseService {
 
   @override
   Future<void> saveResponse() async {
+    LoggerUtil.logger.d('BookendResponseService saveResponse');
     final ILocalFileService localFileService = GetIt.I<ILocalFileService>();
     final IBackend backend = GetIt.I<IBackend>();
 
@@ -205,7 +218,7 @@ class BookendResponseService extends IBookendResponseService {
     var pushSuccess = await backend.pushResponse(_currentResponse!);
 
     if (!pushSuccess) {
-      print('Failed to push response to backend');
+      LoggerUtil.logger.e('BookendResponseService saveResponse, push failed');
     }
   }
 
@@ -213,6 +226,9 @@ class BookendResponseService extends IBookendResponseService {
   Future<List<Response>> getResponses({
     bool onlyIncomplete = false,
   }) async {
+    LoggerUtil.logger.d(
+      'BookendResponseService getResponses, onlyIncomplete: $onlyIncomplete',
+    );
     if (onlyIncomplete) {
       return _responses
           .where((r) => !ResponseUtils.responseIsComplete(response: r))
@@ -226,6 +242,9 @@ class BookendResponseService extends IBookendResponseService {
   AnswerGroup? getAnswerGroup({
     required String answerGroupId,
   }) {
+    LoggerUtil.logger.d(
+      'BookendResponseService getAnswerGroup, answerGroupId: $answerGroupId',
+    );
     return _answerGroups[answerGroupId];
   }
 
@@ -233,6 +252,9 @@ class BookendResponseService extends IBookendResponseService {
   Answer? getAnswer({
     required String answerId,
   }) {
+    LoggerUtil.logger.d(
+      'BookendResponseService getAnswer, answerId: $answerId',
+    );
     return _answers[answerId];
   }
 }

@@ -1,7 +1,7 @@
 import 'package:bookends/models/basic.dart';
 
 abstract class IBackend {
-  Future<bool> setup({
+  Future<bool> init({
     required String url,
   });
 

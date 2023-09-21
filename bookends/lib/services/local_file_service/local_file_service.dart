@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bookends/services/local_file_service/i_local_file_service.dart';
+import 'package:bookends/utils/logger_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:universal_io/io.dart';
@@ -10,6 +11,7 @@ class LocalFileService implements ILocalFileService {
 
   @override
   Future<void> init() async {
+    LoggerUtil.logger.d('LocalFileService init');
     if (kIsWeb) {
       return;
     }
@@ -18,6 +20,8 @@ class LocalFileService implements ILocalFileService {
 
   @override
   Directory getSubdirectory(String subdirectory) {
+    LoggerUtil.logger
+        .d('LocalFileService getSubdirectory, subdirectory: $subdirectory');
     if (kIsWeb) {
       return Directory('');
     }
@@ -36,6 +40,8 @@ class LocalFileService implements ILocalFileService {
   Future<List<String>> getAllFileNames({
     Directory? directory,
   }) async {
+    LoggerUtil.logger
+        .d('LocalFileService getAllFileNames, directory: $directory');
     if (kIsWeb) {
       return [];
     }
@@ -53,6 +59,7 @@ class LocalFileService implements ILocalFileService {
   Future<List<Map<String, dynamic>>> readAll({
     Directory? directory,
   }) async {
+    LoggerUtil.logger.d('LocalFileService readAll, directory: $directory');
     if (kIsWeb) {
       return [];
     }
@@ -67,6 +74,7 @@ class LocalFileService implements ILocalFileService {
         jsonList.add(jsonContent);
       }
     }
+    LoggerUtil.logger.i('LocalFileService readAll, jsonList: $jsonList');
 
     // print("JSON List: $jsonList");
     return jsonList;
@@ -77,6 +85,8 @@ class LocalFileService implements ILocalFileService {
     String fileName, {
     Directory? directory,
   }) async {
+    LoggerUtil.logger.d(
+        'LocalFileService readFile, fileName: $fileName, directory: $directory');
     if (kIsWeb) {
       return {};
     }
@@ -97,6 +107,8 @@ class LocalFileService implements ILocalFileService {
     Map<String, dynamic> data, {
     Directory? directory,
   }) async {
+    LoggerUtil.logger.d(
+        'LocalFileService write, fileName: $fileName, data: $data, directory: $directory');
     if (kIsWeb) {
       return;
     }
@@ -112,6 +124,8 @@ class LocalFileService implements ILocalFileService {
     String fileName, {
     Directory? directory,
   }) async {
+    LoggerUtil.logger.d(
+        'LocalFileService delete, fileName: $fileName, directory: $directory');
     if (kIsWeb) {
       return;
     }
@@ -123,6 +137,7 @@ class LocalFileService implements ILocalFileService {
 
   @override
   Future<void> deleteAll() async {
+    LoggerUtil.logger.d('LocalFileService deleteAll');
     if (kIsWeb) {
       return;
     }

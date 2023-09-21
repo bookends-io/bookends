@@ -1,4 +1,5 @@
 import 'package:bookends/models/basic.dart';
+import 'package:bookends/utils/logger_util.dart';
 
 class ResponseUtils {
   /// Returns true if the response has an answer group for each
@@ -6,13 +7,14 @@ class ResponseUtils {
   static bool responseIsComplete({
     required Response response,
   }) {
+    LoggerUtil.logger.d('responseIsComplete, response: $response');
     final Set<String> questionnaireIds = Set.from(response.questionnaireIds);
-    print('responseIsComplete, questionnaireIds: $questionnaireIds');
     final Set<String> answerGroupQuestionnaireIds = Set.from(
       response.answerGroups.map((ag) => ag.questionnaireId),
     );
-    print(
-        'responseIsComplete, answerGroupQuestionnaireIds: $answerGroupQuestionnaireIds');
+    LoggerUtil.logger.i(
+      'responseIsComplete, questionnaireIds: $questionnaireIds, answerGroupQuestionnaireIds: $answerGroupQuestionnaireIds',
+    );
 
     // Ensure that they are both equal
     if (questionnaireIds.difference(answerGroupQuestionnaireIds).isNotEmpty) {
@@ -25,7 +27,7 @@ class ResponseUtils {
   /// Finds the next questionnaire that isn't filled out and returns its ID.
   /// If the Response is complete, this will return null.
   static String? getNextQuestionnaireId({required Response response}) {
-    print('got here');
+    LoggerUtil.logger.d('getNextQuestionnaireId, response: $response');
     if (responseIsComplete(response: response)) {
       return null;
     }
@@ -35,11 +37,13 @@ class ResponseUtils {
     for (final String questionnaireId in response.questionnaireIds) {
       if (!response.answerGroups
           .any((ag) => ag.questionnaireId == questionnaireId)) {
-        print('Questionnaire ID: $questionnaireId');
+        LoggerUtil.logger.t(
+          'getNextQuestionnaireId, returning: $questionnaireId',
+        );
         return questionnaireId;
       }
     }
-    print('swag');
+
     return null;
   }
 }

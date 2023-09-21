@@ -20,7 +20,7 @@ void main() async {
 
   final IBackend backend = Backend();
   // await backend.setup(url: 'http://localhost:8000');
-  await backend.setup(url: 'https://bookend-api-63714f2dbb3f.herokuapp.com/');
+  await backend.init(url: 'https://bookend-api-63714f2dbb3f.herokuapp.com/');
   GetIt.I.registerSingleton<IBackend>(backend);
 
   final ILocalFileService localFileService = LocalFileService();

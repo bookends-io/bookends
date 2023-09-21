@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:bookends/models/basic.dart';
 import 'package:bookends/services/i_backend.dart';
+import 'package:bookends/utils/logger_util.dart';
 import 'package:http/http.dart' as http;
 
 class Backend extends IBackend {
   String _url = '';
 
   @override
-  Future<bool> setup({
+  Future<bool> init({
     required String url,
   }) async {
+    LoggerUtil.logger.d('Backend init, url: $url');
     _url = url;
 
     return true;
@@ -18,6 +20,7 @@ class Backend extends IBackend {
 
   @override
   Future<List<Bookend>> getBookends() async {
+    LoggerUtil.logger.d('Backend getBookends');
     final List<Bookend> bookendsList = [];
     try {
       final bookends = await http.get(
@@ -28,16 +31,13 @@ class Backend extends IBackend {
         //   'Content-Type': 'application/json',
         // },
       );
-      print('getBookends(), ${bookends.body}');
 
       final Map<String, dynamic> bookendData = jsonDecode(bookends.body);
-      print(bookendData);
       for (var b in bookendData['bookends']) {
         bookendsList.add(Bookend.fromJson(b));
       }
-    } catch (e, s) {
-      print(e);
-      print(s);
+    } catch (e) {
+      LoggerUtil.logger.e(e);
     }
 
     return bookendsList;
@@ -45,16 +45,19 @@ class Backend extends IBackend {
 
   @override
   Future<List<Response>> getResponses() async {
+    LoggerUtil.logger.d('Backend getResponses');
     return [];
   }
 
   @override
   Future<bool> pushResponse(Response response) async {
+    LoggerUtil.logger.d('Backend pushResponse, response: $response');
     return true;
   }
 
   @override
   Future<String> getUserInfo() async {
+    LoggerUtil.logger.d('Backend getUserInfo');
     return '';
   }
 
